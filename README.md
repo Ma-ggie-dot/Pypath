@@ -48,6 +48,8 @@ No separate Python installation is needed for the current browser playground.
 - **Lesson 1: Python basics** - `print()`, variables, strings, and numbers.
 - **Lesson 2: Python operators** - arithmetic, division, remainders, powers,
   calculation order, and a short interactive quiz.
+- **Lesson 3: Making decisions** - comparison operators, Boolean values,
+  `if`/`elif`/`else`, and combining conditions.
 
 ## Development approach
 

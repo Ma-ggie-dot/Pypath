@@ -18,6 +18,7 @@
             <a href="#home">Home</a>
             <a href="#learn">Lesson 1</a>
             <a href="#operators">Lesson 2</a>
+            <a href="#decisions">Lesson 3</a>
             <a href="#playground">Code Playground</a>
         </nav>
 
@@ -258,6 +259,122 @@ total = first_price + second_price
 print(total)</code></pre>
                     <button id="loadOperatorExampleButton" class="secondary-button" type="button">
                         Load example in playground
+                    </button>
+                </article>
+            </div>
+        </section>
+
+        <section id="decisions" class="content-section">
+            <div class="section-heading">
+                <p class="tagline">LESSON 3 · MAKING DECISIONS</p>
+                <h2>Make choices with <code>if</code></h2>
+                <p class="section-intro">
+                    Programs can choose what to do based on information. Python
+                    uses comparisons and conditional statements to make those
+                    decisions.
+                </p>
+            </div>
+
+            <div class="lesson-grid">
+                <article class="lesson-card">
+                    <h3>Compare values</h3>
+                    <p>
+                        A comparison checks how two values relate. It produces
+                        a Boolean value: either <code>True</code> or
+                        <code>False</code>.
+                    </p>
+                    <pre class="example-code"><code>print(8 &gt; 5)   # True
+print(8 == 5)  # False
+print(8 != 5)  # True</code></pre>
+                </article>
+
+                <article class="lesson-card">
+                    <h3>Comparison operators</h3>
+                    <p>
+                        Use <code>==</code> to check equality, <code>!=</code>
+                        for “not equal”, and <code>&lt;</code> or
+                        <code>&gt;</code> for less than or greater than.
+                        <code>&lt;=</code> and <code>&gt;=</code> include equality.
+                    </p>
+                    <pre class="example-code"><code>score = 75
+print(score &gt;= 50)  # True</code></pre>
+                </article>
+
+                <article class="lesson-card lesson-card-wide">
+                    <h3>Choose with <code>if</code> and <code>else</code></h3>
+                    <p>
+                        An <strong>if statement</strong> runs its indented block
+                        only when its condition is true. <code>else</code>
+                        provides a different path when the condition is false.
+                        The colon and indentation are important in Python.
+                    </p>
+                    <pre class="example-code"><code>age = 16
+
+if age &gt;= 18:
+    print("You are an adult.")
+else:
+    print("You are not an adult yet.")</code></pre>
+                </article>
+
+                <article class="lesson-card">
+                    <h3>Check several possibilities with <code>elif</code></h3>
+                    <p>
+                        Use <code>elif</code> (short for “else if”) to test
+                        another condition when the earlier one was false. Python
+                        checks the conditions from top to bottom and runs the
+                        first matching block.
+                    </p>
+                    <pre class="example-code"><code>score = 82
+
+if score &gt;= 90:
+    print("Excellent")
+elif score &gt;= 50:
+    print("You passed")
+else:
+    print("Keep practising")</code></pre>
+                </article>
+
+                <article class="lesson-card">
+                    <h3>Combine conditions</h3>
+                    <p>
+                        Use <code>and</code> when both conditions must be true,
+                        <code>or</code> when either can be true, and
+                        <code>not</code> to reverse a true/false value.
+                    </p>
+                    <pre class="example-code"><code>age = 20
+has_ticket = True
+
+if age &gt;= 18 and has_ticket:
+    print("You can enter.")</code></pre>
+                </article>
+
+                <article class="lesson-card quiz-card">
+                    <h3>Quick quiz</h3>
+                    <p>
+                        If <code>temperature = 12</code>, what will this
+                        condition produce?
+                        <code>temperature &gt; 20</code>
+                    </p>
+                    <fieldset class="quiz-options">
+                        <legend class="visually-hidden">Choose one answer</legend>
+                        <label><input type="radio" name="conditionQuizAnswer" value="a"> <code>True</code></label>
+                        <label><input type="radio" name="conditionQuizAnswer" value="b"> <code>False</code></label>
+                        <label><input type="radio" name="conditionQuizAnswer" value="c"> It causes a syntax error</label>
+                    </fieldset>
+                    <button id="checkConditionQuizButton" class="primary-button" type="button">Check answer</button>
+                    <p id="conditionQuizFeedback" class="feedback" aria-live="polite"></p>
+                </article>
+
+                <article class="lesson-card exercise-card">
+                    <h3>Practise making a decision</h3>
+                    <p>
+                        Try a score of <code>75</code> in the playground. Write
+                        an <code>if</code>/<code>else</code> statement that prints
+                        <code>"You passed"</code> when the score is at least 50,
+                        and <code>"Keep practising"</code> otherwise.
+                    </p>
+                    <button id="loadConditionExampleButton" class="secondary-button" type="button">
+                        Load starter example
                     </button>
                 </article>
             </div>

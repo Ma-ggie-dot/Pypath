@@ -7,6 +7,9 @@ const quizFeedback = document.getElementById("quizFeedback");
 const checkOperatorQuizButton = document.getElementById("checkOperatorQuizButton");
 const operatorQuizFeedback = document.getElementById("operatorQuizFeedback");
 const loadOperatorExampleButton = document.getElementById("loadOperatorExampleButton");
+const checkConditionQuizButton = document.getElementById("checkConditionQuizButton");
+const conditionQuizFeedback = document.getElementById("conditionQuizFeedback");
+const loadConditionExampleButton = document.getElementById("loadConditionExampleButton");
 const pythonCode = document.getElementById("pythonCode");
 const runCodeButton = document.getElementById("runCodeButton");
 const resetCodeButton = document.getElementById("resetCodeButton");
@@ -22,6 +25,14 @@ first_price = 120
 second_price = 80
 total = first_price + second_price
 print(total)
+`;
+const conditionExampleCode = `# Change the score and run the program
+score = 75
+
+if score >= 50:
+    print("You passed")
+else:
+    print("Keep practising")
 `;
 const challengeCode = `# Set the two numbers
 first_number = 8
@@ -84,6 +95,26 @@ checkOperatorQuizButton.addEventListener("click", function () {
     }
 });
 
+checkConditionQuizButton.addEventListener("click", function () {
+    const selectedAnswer = document.querySelector('input[name="conditionQuizAnswer"]:checked');
+
+    conditionQuizFeedback.classList.remove("feedback-success", "feedback-error");
+
+    if (!selectedAnswer) {
+        conditionQuizFeedback.textContent = "Choose an answer first.";
+        conditionQuizFeedback.classList.add("feedback-error");
+        return;
+    }
+
+    if (selectedAnswer.value === "b") {
+        conditionQuizFeedback.textContent = "Correct! 12 is not greater than 20, so the comparison is False.";
+        conditionQuizFeedback.classList.add("feedback-success");
+    } else {
+        conditionQuizFeedback.textContent = "Not quite. 12 is less than 20, so temperature > 20 is False.";
+        conditionQuizFeedback.classList.add("feedback-error");
+    }
+});
+
 async function initializePython() {
     try {
         pyodide = await loadPyodide();
@@ -117,6 +148,16 @@ loadOperatorExampleButton.addEventListener("click", function () {
     setChallengeFeedback("", "");
     playgroundStatus.textContent = "Example loaded. Select Run Python to see the total.";
     pythonOutput.textContent = "Example loaded. Select Run Python to see the total.";
+    document.getElementById("playground").scrollIntoView({ behavior: "smooth" });
+    pythonCode.focus();
+});
+
+loadConditionExampleButton.addEventListener("click", function () {
+    pythonCode.value = conditionExampleCode;
+    challengeMode = false;
+    setChallengeFeedback("", "");
+    playgroundStatus.textContent = "Starter example loaded. Select Run Python to see the decision.";
+    pythonOutput.textContent = "Starter example loaded. Select Run Python to see the decision.";
     document.getElementById("playground").scrollIntoView({ behavior: "smooth" });
     pythonCode.focus();
 });
