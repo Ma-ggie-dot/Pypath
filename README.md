@@ -18,14 +18,15 @@ Python in a browser-based playground.
 
 ### Planned as the project grows
 
-- **Python** will be used to develop the backend.
-- **Django** will provide the backend web framework for accounts, lessons,
-  quizzes, and learner progress.
+- **Python** and **Django** are now used for the initial backend scaffold.
+- **Django** will provide the backend framework for accounts, lessons, quizzes,
+  and learner progress as those features are added.
 - **MySQL** will store application data, accessed through Django's ORM. SQL
   will also be learned and practised as part of database development.
 
-The backend and database are planned stages; they are not part of the current
-static frontend.
+The backend runs separately from the current static frontend. Its first
+`/health/` endpoint confirms Django is responding. MySQL, accounts, and lesson
+APIs are not configured yet.
 
 ## Run the current website
 
@@ -36,12 +37,37 @@ static frontend.
    add-two-numbers exercise.
 
 No separate Python installation is needed for the current browser playground.
+The Django backend does require Python and the dependencies in
+`requirements.txt`.
+
+## Run the Django backend locally
+
+Open PowerShell in the project folder and run:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+cd backend
+python manage.py test core
+python manage.py runserver
+```
+
+Open `http://127.0.0.1:8000/health/` in your browser. The response should be
+JSON with `"status": "ok"`. Stop the local server with **Ctrl+C**.
+
+The `.venv` folder contains this project's isolated Python packages and is
+ignored by Git. The backend currently uses Django's local SQLite development
+database setting; MySQL will be configured in a later database milestone.
+The static frontend is still opened separately from `index.html`.
 
 ## Project files
 
 - `index.html` - homepage, first lesson, quiz, challenge, and playground.
 - `style.css` - page styles and responsive layout.
 - `script.js` - interactive behaviour and Pyodide integration.
+- `requirements.txt` - Python backend dependencies.
+- `backend/` - Django project and its first `core` app.
 
 ## Lessons currently available
 
@@ -72,9 +98,10 @@ The project is being built in small, testable milestones:
 
 1. Frontend foundations with HTML, CSS, and JavaScript (complete).
 2. Python lessons and browser-based practice with Pyodide (in progress).
-3. A Python and Django backend.
+3. Initial Django backend scaffold and health check (in progress).
 4. MySQL data storage, authentication, and progress tracking.
-5. Further exercises, projects, testing, and deployment.
+5. Connect frontend pages to Django and build further exercises, projects,
+   tests, and deployment.
 
 Learner-submitted code should continue to run in the browser with Pyodide.
 Do not run arbitrary learner code directly on the main Django server.
@@ -89,5 +116,6 @@ Add first Python lesson and browser playground
 Add automatic number addition challenge
 ```
 
-Before sharing the project on GitHub, choose whether the repository should be
-public or private and confirm the GitHub repository URL.
+Keep development secrets out of GitHub. The current Django secret-key fallback
+is for local development only and must be replaced with a secure environment
+variable before deployment.
