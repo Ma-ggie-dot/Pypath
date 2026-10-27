@@ -21,6 +21,11 @@
             <a href="#decisions">Lesson 3</a>
             <a href="#loops">Lesson 4</a>
             <a href="#collections">Lesson 5</a>
+            <a href="#functions">Lesson 6</a>
+            <a href="#strings">Lesson 7</a>
+            <a href="#errors">Lesson 8</a>
+            <a href="#files">Lesson 9</a>
+            <a href="#objects">Lesson 10</a>
             <a href="#playground">Code Playground</a>
         </nav>
 
@@ -591,6 +596,506 @@ learner["level"] = 2</code></pre>
                         print each fruit.
                     </p>
                     <button id="loadCollectionExampleButton" class="secondary-button" type="button">
+                        Load starter example
+                    </button>
+                </article>
+            </div>
+        </section>
+
+        <section id="functions" class="content-section">
+            <div class="section-heading">
+                <p class="tagline">LESSON 6 · PYTHON FUNCTIONS</p>
+                <h2>Organise code with functions</h2>
+                <p class="section-intro">
+                    A function is a reusable block of code. Give it a name,
+                    provide information when needed, and call it whenever you
+                    want it to do its job.
+                </p>
+            </div>
+
+            <div class="lesson-grid">
+                <article class="lesson-card">
+                    <h3>Define and call a function</h3>
+                    <p>
+                        The <code>def</code> keyword defines a function.
+                        Indented lines are its body. Defining it does not run it;
+                        call it by writing its name followed by parentheses.
+                    </p>
+                    <pre class="example-code"><code>def greet():
+    print("Hello, learner!")
+
+greet()</code></pre>
+                </article>
+
+                <article class="lesson-card">
+                    <h3>Pass information with parameters</h3>
+                    <p>
+                        A <strong>parameter</strong> is a name in a function
+                        definition. An <strong>argument</strong> is the value
+                        supplied when calling that function.
+                    </p>
+                    <pre class="example-code"><code>def greet(name):
+    print("Hello,", name)
+
+greet("Amina")</code></pre>
+                </article>
+
+                <article class="lesson-card">
+                    <h3>Return a result</h3>
+                    <p>
+                        <code>return</code> sends a result back to the code that
+                        called the function. You can save that result in a
+                        variable or use it in another calculation.
+                    </p>
+                    <pre class="example-code"><code>def add_numbers(first, second):
+    return first + second
+
+answer = add_numbers(8, 5)
+print(answer)</code></pre>
+                </article>
+
+                <article class="lesson-card">
+                    <h3>Use a default parameter</h3>
+                    <p>
+                        A default value is used when a function call does not
+                        provide that argument. Arguments without defaults must
+                        come before parameters with defaults.
+                    </p>
+                    <pre class="example-code"><code>def greet(name="friend"):
+    print("Hello,", name)
+
+greet()
+greet("Amina")</code></pre>
+                </article>
+
+                <article class="lesson-card quiz-card">
+                    <h3>Quick quiz</h3>
+                    <p>What does <code>return</code> do in a function?</p>
+                    <fieldset class="quiz-options">
+                        <legend class="visually-hidden">Choose one answer</legend>
+                        <label><input type="radio" name="functionQuizAnswer" value="a"> Repeats the function forever</label>
+                        <label><input type="radio" name="functionQuizAnswer" value="b"> Sends a result back to the caller</label>
+                        <label><input type="radio" name="functionQuizAnswer" value="c"> Defines a new variable</label>
+                    </fieldset>
+                    <button id="checkFunctionQuizButton" class="primary-button" type="button">Check answer</button>
+                    <p id="functionQuizFeedback" class="feedback" aria-live="polite"></p>
+                </article>
+
+                <article class="lesson-card exercise-card">
+                    <h3>Practise writing a function</h3>
+                    <p>
+                        Run the example, then change the arguments. Try adding a
+                        function of your own that returns a calculation.
+                    </p>
+                    <button id="loadFunctionExampleButton" class="secondary-button" type="button">
+                        Load starter example
+                    </button>
+                </article>
+            </div>
+        </section>
+
+        <section id="strings" class="content-section">
+            <div class="section-heading">
+                <p class="tagline">LESSON 7 · WORKING WITH STRINGS</p>
+                <h2>Work with text in Python</h2>
+                <p class="section-intro">
+                    A string is text inside quotes. Python gives you useful
+                    tools to combine, inspect, format, and find parts of strings.
+                </p>
+            </div>
+
+            <div class="lesson-grid">
+                <article class="lesson-card">
+                    <h3>Combine strings</h3>
+                    <p>
+                        Use <code>+</code> to join strings together. Add a space
+                        yourself when you want words separated.
+                    </p>
+                    <pre class="example-code"><code>first_name = "Amina"
+greeting = "Hello, " + first_name
+print(greeting)</code></pre>
+                </article>
+
+                <article class="lesson-card">
+                    <h3>Find a string's length</h3>
+                    <p>
+                        <code>len()</code> counts the characters in a string,
+                        including spaces and punctuation.
+                    </p>
+                    <pre class="example-code"><code>message = "Hello!"
+print(len(message))  # 6</code></pre>
+                </article>
+
+                <article class="lesson-card">
+                    <h3>Change letter case</h3>
+                    <p>
+                        String methods such as <code>upper()</code>,
+                        <code>lower()</code>, and <code>title()</code> return
+                        a changed version of the text.
+                    </p>
+                    <pre class="example-code"><code>course = "learn python"
+print(course.upper())
+print(course.title())</code></pre>
+                </article>
+
+                <article class="lesson-card">
+                    <h3>Use an f-string</h3>
+                    <p>
+                        An <strong>f-string</strong> lets you put a variable or
+                        expression inside a string. Start the string with
+                        <code>f</code> and put the value in curly braces.
+                    </p>
+                    <pre class="example-code"><code>name = "Amina"
+lessons = 7
+print(f"{name} has studied {lessons} lessons.")</code></pre>
+                </article>
+
+                <article class="lesson-card lesson-card-wide">
+                    <h3>Select characters and slices</h3>
+                    <p>
+                        Strings use zero-based indexes like lists. A
+                        <strong>slice</strong> selects a range of characters;
+                        its ending index is not included.
+                    </p>
+                    <pre class="example-code"><code>language = "Python"
+print(language[0])     # P
+print(language[0:3])   # Pyt</code></pre>
+                </article>
+
+                <article class="lesson-card quiz-card">
+                    <h3>Quick quiz</h3>
+                    <p>What value does this f-string display?</p>
+                    <pre class="example-code"><code>name = "Amina"
+print(f"Hi, {name}!")</code></pre>
+                    <fieldset class="quiz-options">
+                        <legend class="visually-hidden">Choose one answer</legend>
+                        <label><input type="radio" name="stringQuizAnswer" value="a"> <code>Hi, name!</code></label>
+                        <label><input type="radio" name="stringQuizAnswer" value="b"> <code>Hi, Amina!</code></label>
+                        <label><input type="radio" name="stringQuizAnswer" value="c"> <code>Hi, {name}!</code></label>
+                    </fieldset>
+                    <button id="checkStringQuizButton" class="primary-button" type="button">Check answer</button>
+                    <p id="stringQuizFeedback" class="feedback" aria-live="polite"></p>
+                </article>
+
+                <article class="lesson-card exercise-card">
+                    <h3>Practise formatting text</h3>
+                    <p>
+                        Change the name and lesson count. Try calling
+                        <code>upper()</code> on the name and print the updated
+                        message.
+                    </p>
+                    <button id="loadStringExampleButton" class="secondary-button" type="button">
+                        Load starter example
+                    </button>
+                </article>
+            </div>
+        </section>
+
+        <section id="errors" class="content-section">
+            <div class="section-heading">
+                <p class="tagline">LESSON 8 · ERRORS AND EXCEPTIONS</p>
+                <h2>Handle errors helpfully</h2>
+                <p class="section-intro">
+                    Errors are part of programming. Learn to read the error
+                    message and handle expected problems so your program can
+                    respond clearly.
+                </p>
+            </div>
+
+            <div class="lesson-grid">
+                <article class="lesson-card">
+                    <h3>Read the error message</h3>
+                    <p>
+                        A <strong>syntax error</strong> means Python cannot
+                        understand the code's structure. A
+                        <strong>runtime error</strong> happens while the program
+                        is running. Read the last line and the line number to
+                        start debugging.
+                    </p>
+                    <pre class="example-code"><code>print("Hello"  # Missing a closing )</code></pre>
+                </article>
+
+                <article class="lesson-card">
+                    <h3>Catch an expected error</h3>
+                    <p>
+                        Put risky code in a <code>try</code> block and handle a
+                        specific exception in <code>except</code>. Catching a
+                        specific error gives a more useful response.
+                    </p>
+                    <pre class="example-code"><code>try:
+    number = int("hello")
+except ValueError:
+    print("Please enter a whole number.")</code></pre>
+                </article>
+
+                <article class="lesson-card">
+                    <h3>Use <code>else</code> and <code>finally</code></h3>
+                    <p>
+                        The optional <code>else</code> block runs when no
+                        exception happened. <code>finally</code> runs whether
+                        the operation succeeded or failed.
+                    </p>
+                    <pre class="example-code"><code>try:
+    number = int("12")
+except ValueError:
+    print("That was not a number.")
+else:
+    print("You entered", number)
+finally:
+    print("Finished checking.")</code></pre>
+                </article>
+
+                <article class="lesson-card">
+                    <h3>Debug one small step at a time</h3>
+                    <p>
+                        Reproduce the problem, read the traceback, check the
+                        named line and values, then make one change and test
+                        again. The playground displays Python error messages
+                        below the editor.
+                    </p>
+                    <pre class="example-code"><code>age_text = "twenty"
+age = int(age_text)  # ValueError</code></pre>
+                </article>
+
+                <article class="lesson-card quiz-card">
+                    <h3>Quick quiz</h3>
+                    <p>
+                        Which exception should handle
+                        <code>int("hello")</code>?
+                    </p>
+                    <fieldset class="quiz-options">
+                        <legend class="visually-hidden">Choose one answer</legend>
+                        <label><input type="radio" name="errorQuizAnswer" value="a"> <code>ValueError</code></label>
+                        <label><input type="radio" name="errorQuizAnswer" value="b"> <code>KeyError</code></label>
+                        <label><input type="radio" name="errorQuizAnswer" value="c"> <code>IndexError</code></label>
+                    </fieldset>
+                    <button id="checkErrorQuizButton" class="primary-button" type="button">Check answer</button>
+                    <p id="errorQuizFeedback" class="feedback" aria-live="polite"></p>
+                </article>
+
+                <article class="lesson-card exercise-card">
+                    <h3>Practise handling an error</h3>
+                    <p>
+                        Run the example with <code>"hello"</code>, then change
+                        it to <code>"25"</code>. Notice which output appears in
+                        each case.
+                    </p>
+                    <button id="loadErrorExampleButton" class="secondary-button" type="button">
+                        Load starter example
+                    </button>
+                </article>
+            </div>
+        </section>
+
+        <section id="files" class="content-section">
+            <div class="section-heading">
+                <p class="tagline">LESSON 9 · PYTHON FILES</p>
+                <h2>Read and write files</h2>
+                <p class="section-intro">
+                    Programs can save and load text. Use a context manager with
+                    <code>with open(...)</code> so Python closes a file when the
+                    block ends, even if a problem occurs.
+                </p>
+            </div>
+
+            <div class="lesson-grid">
+                <article class="lesson-card">
+                    <h3>Open a file for writing</h3>
+                    <p>
+                        The <code>"w"</code> mode writes a file and replaces
+                        its old contents. <code>write()</code> stores text.
+                    </p>
+                    <pre class="example-code"><code>with open("notes.txt", "w") as file:
+    file.write("Python is fun!")</code></pre>
+                </article>
+
+                <article class="lesson-card">
+                    <h3>Read a file</h3>
+                    <p>
+                        Use <code>"r"</code> to read text from an existing file.
+                        The <code>read()</code> method returns the contents.
+                    </p>
+                    <pre class="example-code"><code>with open("notes.txt", "r") as file:
+    contents = file.read()
+
+print(contents)</code></pre>
+                </article>
+
+                <article class="lesson-card">
+                    <h3>Add to a file</h3>
+                    <p>
+                        The <code>"a"</code> mode appends text to the end of a
+                        file instead of replacing its existing contents. Add
+                        <code>"\n"</code> when you want a new line.
+                    </p>
+                    <pre class="example-code"><code>with open("notes.txt", "a") as file:
+    file.write("\nKeep practising!")</code></pre>
+                </article>
+
+                <article class="lesson-card">
+                    <h3>Use a safe file pattern</h3>
+                    <p>
+                        Keep file access inside a <code>with</code> block. Catch
+                        <code>FileNotFoundError</code> if a file might not exist
+                        yet. Avoid opening files you do not recognise.
+                    </p>
+                    <pre class="example-code"><code>try:
+    with open("notes.txt", "r") as file:
+        print(file.read())
+except FileNotFoundError:
+    print("The notes file does not exist yet.")</code></pre>
+                </article>
+
+                <article class="lesson-card lesson-card-wide">
+                    <h3>Where this playground stores files</h3>
+                    <p>
+                        In this lesson the code runs in Pyodide's temporary
+                        browser-based file system. The example creates and reads
+                        <code>notes.txt</code> there; it does not upload the file
+                        to a server, and the temporary file may disappear when
+                        the page is refreshed.
+                    </p>
+                    <pre class="example-code"><code>with open("notes.txt", "w") as file:
+    file.write("My first Python file")
+
+with open("notes.txt", "r") as file:
+    print(file.read())</code></pre>
+                </article>
+
+                <article class="lesson-card quiz-card">
+                    <h3>Quick quiz</h3>
+                    <p>Which mode adds text without replacing old contents?</p>
+                    <fieldset class="quiz-options">
+                        <legend class="visually-hidden">Choose one answer</legend>
+                        <label><input type="radio" name="fileQuizAnswer" value="a"> <code>"r"</code></label>
+                        <label><input type="radio" name="fileQuizAnswer" value="b"> <code>"w"</code></label>
+                        <label><input type="radio" name="fileQuizAnswer" value="c"> <code>"a"</code></label>
+                    </fieldset>
+                    <button id="checkFileQuizButton" class="primary-button" type="button">Check answer</button>
+                    <p id="fileQuizFeedback" class="feedback" aria-live="polite"></p>
+                </article>
+
+                <article class="lesson-card exercise-card">
+                    <h3>Practise reading and writing</h3>
+                    <p>
+                        Run the example to write a message to the temporary
+                        Python file system and read it back.
+                    </p>
+                    <button id="loadFileExampleButton" class="secondary-button" type="button">
+                        Load starter example
+                    </button>
+                </article>
+            </div>
+        </section>
+
+        <section id="objects" class="content-section">
+            <div class="section-heading">
+                <p class="tagline">LESSON 10 · OBJECT-ORIENTED PYTHON</p>
+                <h2>Build your own objects</h2>
+                <p class="section-intro">
+                    Object-oriented programming groups related data and
+                    behaviour together. A class describes a kind of object; an
+                    object is one instance created from that class.
+                </p>
+            </div>
+
+            <div class="lesson-grid">
+                <article class="lesson-card">
+                    <h3>Define a class</h3>
+                    <p>
+                        A <strong>class</strong> is a blueprint for creating
+                        objects. By convention, class names use
+                        <code>CapWords</code>.
+                    </p>
+                    <pre class="example-code"><code>class Learner:
+    pass</code></pre>
+                </article>
+
+                <article class="lesson-card">
+                    <h3>Create an object with <code>__init__</code></h3>
+                    <p>
+                        The <code>__init__</code> method sets up a new object.
+                        <code>self</code> refers to that particular object.
+                    </p>
+                    <pre class="example-code"><code>class Learner:
+    def __init__(self, name):
+        self.name = name
+
+learner = Learner("Amina")
+print(learner.name)</code></pre>
+                </article>
+
+                <article class="lesson-card">
+                    <h3>Store an object's attributes</h3>
+                    <p>
+                        An <strong>attribute</strong> is data stored on an
+                        object. Different objects created from one class can
+                        store different attribute values.
+                    </p>
+                    <pre class="example-code"><code>learner_one = Learner("Amina")
+learner_two = Learner("Brian")
+
+print(learner_one.name)
+print(learner_two.name)</code></pre>
+                </article>
+
+                <article class="lesson-card">
+                    <h3>Add behaviour with methods</h3>
+                    <p>
+                        A <strong>method</strong> is a function defined inside a
+                        class. It can use <code>self</code> to work with that
+                        object's attributes.
+                    </p>
+                    <pre class="example-code"><code>class Learner:
+    def __init__(self, name):
+        self.name = name
+
+    def greet(self):
+        print("Hello,", self.name)
+
+Learner("Amina").greet()</code></pre>
+                </article>
+
+                <article class="lesson-card lesson-card-wide">
+                    <h3>Keep data and behaviour together</h3>
+                    <p>
+                        An object combines <strong>state</strong> (its
+                        attributes) and <strong>behaviour</strong> (its
+                        methods). This can make related program logic easier
+                        to organise as a project grows.
+                    </p>
+                    <pre class="example-code"><code>class Counter:
+    def __init__(self):
+        self.value = 0
+
+    def add_one(self):
+        self.value = self.value + 1
+
+counter = Counter()
+counter.add_one()
+print(counter.value)</code></pre>
+                </article>
+
+                <article class="lesson-card quiz-card">
+                    <h3>Quick quiz</h3>
+                    <p>What is a class in object-oriented programming?</p>
+                    <fieldset class="quiz-options">
+                        <legend class="visually-hidden">Choose one answer</legend>
+                        <label><input type="radio" name="objectQuizAnswer" value="a"> A blueprint for creating objects</label>
+                        <label><input type="radio" name="objectQuizAnswer" value="b"> A loop that repeats code</label>
+                        <label><input type="radio" name="objectQuizAnswer" value="c"> A type of string</label>
+                    </fieldset>
+                    <button id="checkObjectQuizButton" class="primary-button" type="button">Check answer</button>
+                    <p id="objectQuizFeedback" class="feedback" aria-live="polite"></p>
+                </article>
+
+                <article class="lesson-card exercise-card">
+                    <h3>Practise making an object</h3>
+                    <p>
+                        Run the example, then change the learner's name or add
+                        another method to the <code>Learner</code> class.
+                    </p>
+                    <button id="loadObjectExampleButton" class="secondary-button" type="button">
                         Load starter example
                     </button>
                 </article>

@@ -378,6 +378,21 @@ footer {
     font-size: 13px;
 }
 
+@media (max-width: 1100px) {
+    .navbar {
+        flex-wrap: wrap;
+        gap: 18px;
+    }
+
+    nav {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 12px 20px;
+    }
+}
+
 @media (max-width: 800px) {
     .navbar {
         flex-wrap: wrap;

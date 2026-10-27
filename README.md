@@ -54,6 +54,17 @@ No separate Python installation is needed for the current browser playground.
   and `range()`.
 - **Lesson 5: Python collections** - creating and changing lists, using
   indexes, looping through items, and storing labelled values in dictionaries.
+- **Lesson 6: Python functions** - defining and calling functions, parameters,
+  arguments, and return values.
+- **Lesson 7: Working with strings** - combining text, string methods,
+  indexes, slices, and f-strings.
+- **Lesson 8: Errors and exceptions** - reading errors and handling expected
+  problems with `try`/`except`.
+- **Lesson 9: Python files** - reading, writing, and appending text with
+  context managers. Playground files are temporary and stay in Pyodide's
+  browser-based file system.
+- **Lesson 10: Object-oriented Python** - classes, objects, attributes,
+  `__init__`, `self`, and methods.
 
 ## Development approach
 

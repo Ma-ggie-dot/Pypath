@@ -16,6 +16,21 @@ const loadLoopExampleButton = document.getElementById("loadLoopExampleButton");
 const checkCollectionQuizButton = document.getElementById("checkCollectionQuizButton");
 const collectionQuizFeedback = document.getElementById("collectionQuizFeedback");
 const loadCollectionExampleButton = document.getElementById("loadCollectionExampleButton");
+const checkFunctionQuizButton = document.getElementById("checkFunctionQuizButton");
+const functionQuizFeedback = document.getElementById("functionQuizFeedback");
+const loadFunctionExampleButton = document.getElementById("loadFunctionExampleButton");
+const checkStringQuizButton = document.getElementById("checkStringQuizButton");
+const stringQuizFeedback = document.getElementById("stringQuizFeedback");
+const loadStringExampleButton = document.getElementById("loadStringExampleButton");
+const checkErrorQuizButton = document.getElementById("checkErrorQuizButton");
+const errorQuizFeedback = document.getElementById("errorQuizFeedback");
+const loadErrorExampleButton = document.getElementById("loadErrorExampleButton");
+const checkFileQuizButton = document.getElementById("checkFileQuizButton");
+const fileQuizFeedback = document.getElementById("fileQuizFeedback");
+const loadFileExampleButton = document.getElementById("loadFileExampleButton");
+const checkObjectQuizButton = document.getElementById("checkObjectQuizButton");
+const objectQuizFeedback = document.getElementById("objectQuizFeedback");
+const loadObjectExampleButton = document.getElementById("loadObjectExampleButton");
 const pythonCode = document.getElementById("pythonCode");
 const runCodeButton = document.getElementById("runCodeButton");
 const resetCodeButton = document.getElementById("resetCodeButton");
@@ -50,6 +65,43 @@ fruits.append("pineapple")
 
 for fruit in fruits:
     print(fruit)
+`;
+const functionExampleCode = `def add_numbers(first, second):
+    return first + second
+
+answer = add_numbers(8, 5)
+print(answer)
+`;
+const stringExampleCode = `name = "Amina"
+lessons = 7
+
+print(f"{name} has studied {lessons} lessons.")
+print(name.upper())
+`;
+const errorExampleCode = `text = "hello"
+
+try:
+    number = int(text)
+except ValueError:
+    print("Please enter a whole number.")
+else:
+    print("You entered", number)
+`;
+const fileExampleCode = `with open("notes.txt", "w") as file:
+    file.write("My first Python file")
+
+with open("notes.txt", "r") as file:
+    print(file.read())
+`;
+const objectExampleCode = `class Learner:
+    def __init__(self, name):
+        self.name = name
+
+    def greet(self):
+        print("Hello,", self.name)
+
+learner = Learner("Amina")
+learner.greet()
 `;
 const challengeCode = `# Set the two numbers
 first_number = 8
@@ -171,6 +223,84 @@ checkCollectionQuizButton.addEventListener("click", function () {
         collectionQuizFeedback.classList.add("feedback-error");
     }
 });
+
+function attachQuiz(button, answerName, feedback, correctAnswer, correctMessage, incorrectMessage) {
+    button.addEventListener("click", function () {
+        const selectedAnswer = document.querySelector(`input[name="${answerName}"]:checked`);
+
+        feedback.classList.remove("feedback-success", "feedback-error");
+
+        if (!selectedAnswer) {
+            feedback.textContent = "Choose an answer first.";
+            feedback.classList.add("feedback-error");
+        } else if (selectedAnswer.value === correctAnswer) {
+            feedback.textContent = correctMessage;
+            feedback.classList.add("feedback-success");
+        } else {
+            feedback.textContent = incorrectMessage;
+            feedback.classList.add("feedback-error");
+        }
+    });
+}
+
+function loadLessonExample(button, code, statusMessage) {
+    button.addEventListener("click", function () {
+        pythonCode.value = code;
+        challengeMode = false;
+        setChallengeFeedback("", "");
+        playgroundStatus.textContent = statusMessage;
+        pythonOutput.textContent = statusMessage;
+        document.getElementById("playground").scrollIntoView({ behavior: "smooth" });
+        pythonCode.focus();
+    });
+}
+
+attachQuiz(
+    checkFunctionQuizButton,
+    "functionQuizAnswer",
+    functionQuizFeedback,
+    "b",
+    "Correct! return sends a result back to the code that called the function.",
+    "Not quite. return sends a result back to the code that called the function."
+);
+attachQuiz(
+    checkStringQuizButton,
+    "stringQuizAnswer",
+    stringQuizFeedback,
+    "b",
+    "Correct! The f-string inserts the value of name into the message.",
+    "Not quite. An f-string replaces {name} with the value stored in the name variable."
+);
+attachQuiz(
+    checkErrorQuizButton,
+    "errorQuizAnswer",
+    errorQuizFeedback,
+    "a",
+    "Correct! int() raises ValueError when text is not a valid whole number.",
+    "Not quite. int() raises ValueError when it cannot convert the text to a whole number."
+);
+attachQuiz(
+    checkFileQuizButton,
+    "fileQuizAnswer",
+    fileQuizFeedback,
+    "c",
+    'Correct! The "a" mode appends text to the end of a file.',
+    'Not quite. The "a" mode appends text without replacing the old contents.'
+);
+attachQuiz(
+    checkObjectQuizButton,
+    "objectQuizAnswer",
+    objectQuizFeedback,
+    "a",
+    "Correct! A class describes the data and behaviour that its objects can have.",
+    "Not quite. A class is a blueprint used to create objects."
+);
+
+loadLessonExample(loadFunctionExampleButton, functionExampleCode, "Function example loaded. Select Run Python to see the returned result.");
+loadLessonExample(loadStringExampleButton, stringExampleCode, "String example loaded. Select Run Python to see the formatted text.");
+loadLessonExample(loadErrorExampleButton, errorExampleCode, "Error-handling example loaded. Select Run Python to see how ValueError is handled.");
+loadLessonExample(loadFileExampleButton, fileExampleCode, "File example loaded. Select Run Python to write and read a temporary file in the browser.");
+loadLessonExample(loadObjectExampleButton, objectExampleCode, "Object example loaded. Select Run Python to create a learner and call its method.");
 
 async function initializePython() {
     try {
