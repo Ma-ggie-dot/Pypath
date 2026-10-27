@@ -50,6 +50,8 @@ No separate Python installation is needed for the current browser playground.
   calculation order, and a short interactive quiz.
 - **Lesson 3: Making decisions** - comparison operators, Boolean values,
   `if`/`elif`/`else`, and combining conditions.
+- **Lesson 4: Python loops** - repeating instructions with `for`, `while`,
+  and `range()`.
 
 ## Development approach
 

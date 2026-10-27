@@ -10,6 +10,9 @@ const loadOperatorExampleButton = document.getElementById("loadOperatorExampleBu
 const checkConditionQuizButton = document.getElementById("checkConditionQuizButton");
 const conditionQuizFeedback = document.getElementById("conditionQuizFeedback");
 const loadConditionExampleButton = document.getElementById("loadConditionExampleButton");
+const checkLoopQuizButton = document.getElementById("checkLoopQuizButton");
+const loopQuizFeedback = document.getElementById("loopQuizFeedback");
+const loadLoopExampleButton = document.getElementById("loadLoopExampleButton");
 const pythonCode = document.getElementById("pythonCode");
 const runCodeButton = document.getElementById("runCodeButton");
 const resetCodeButton = document.getElementById("resetCodeButton");
@@ -33,6 +36,10 @@ if score >= 50:
     print("You passed")
 else:
     print("Keep practising")
+`;
+const loopExampleCode = `# Print the numbers from 1 through 5
+for number in range(1, 6):
+    print(number)
 `;
 const challengeCode = `# Set the two numbers
 first_number = 8
@@ -115,6 +122,26 @@ checkConditionQuizButton.addEventListener("click", function () {
     }
 });
 
+checkLoopQuizButton.addEventListener("click", function () {
+    const selectedAnswer = document.querySelector('input[name="loopQuizAnswer"]:checked');
+
+    loopQuizFeedback.classList.remove("feedback-success", "feedback-error");
+
+    if (!selectedAnswer) {
+        loopQuizFeedback.textContent = "Choose an answer first.";
+        loopQuizFeedback.classList.add("feedback-error");
+        return;
+    }
+
+    if (selectedAnswer.value === "b") {
+        loopQuizFeedback.textContent = "Correct! range(4) produces 0, 1, 2, and 3, so the loop runs 4 times.";
+        loopQuizFeedback.classList.add("feedback-success");
+    } else {
+        loopQuizFeedback.textContent = "Not quite. range(4) starts at 0 and stops before 4.";
+        loopQuizFeedback.classList.add("feedback-error");
+    }
+});
+
 async function initializePython() {
     try {
         pyodide = await loadPyodide();
@@ -158,6 +185,16 @@ loadConditionExampleButton.addEventListener("click", function () {
     setChallengeFeedback("", "");
     playgroundStatus.textContent = "Starter example loaded. Select Run Python to see the decision.";
     pythonOutput.textContent = "Starter example loaded. Select Run Python to see the decision.";
+    document.getElementById("playground").scrollIntoView({ behavior: "smooth" });
+    pythonCode.focus();
+});
+
+loadLoopExampleButton.addEventListener("click", function () {
+    pythonCode.value = loopExampleCode;
+    challengeMode = false;
+    setChallengeFeedback("", "");
+    playgroundStatus.textContent = "Starter example loaded. Select Run Python to see the loop.";
+    pythonOutput.textContent = "Starter example loaded. Select Run Python to see the loop.";
     document.getElementById("playground").scrollIntoView({ behavior: "smooth" });
     pythonCode.focus();
 });
