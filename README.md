@@ -43,12 +43,18 @@ No separate Python installation is needed for the current browser playground.
 - `style.css` - page styles and responsive layout.
 - `script.js` - interactive behaviour and Pyodide integration.
 
+## Lessons currently available
+
+- **Lesson 1: Python basics** - `print()`, variables, strings, and numbers.
+- **Lesson 2: Python operators** - arithmetic, division, remainders, powers,
+  calculation order, and a short interactive quiz.
+
 ## Development approach
 
 The project is being built in small, testable milestones:
 
-1. Frontend foundations with HTML, CSS, and JavaScript.
-2. Python lessons and browser-based practice with Pyodide.
+1. Frontend foundations with HTML, CSS, and JavaScript (complete).
+2. Python lessons and browser-based practice with Pyodide (in progress).
 3. A Python and Django backend.
 4. MySQL data storage, authentication, and progress tracking.
 5. Further exercises, projects, testing, and deployment.

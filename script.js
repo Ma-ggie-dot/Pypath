@@ -4,6 +4,9 @@ const learnButton = document.getElementById("learnButton");
 const exploreButton = document.getElementById("exploreButton");
 const checkQuizButton = document.getElementById("checkQuizButton");
 const quizFeedback = document.getElementById("quizFeedback");
+const checkOperatorQuizButton = document.getElementById("checkOperatorQuizButton");
+const operatorQuizFeedback = document.getElementById("operatorQuizFeedback");
+const loadOperatorExampleButton = document.getElementById("loadOperatorExampleButton");
 const pythonCode = document.getElementById("pythonCode");
 const runCodeButton = document.getElementById("runCodeButton");
 const resetCodeButton = document.getElementById("resetCodeButton");
@@ -14,6 +17,12 @@ const playgroundStatus = document.getElementById("playgroundStatus");
 const pythonOutput = document.getElementById("pythonOutput");
 
 const starterCode = pythonCode.value;
+const operatorExampleCode = `# Change the prices and run the calculation
+first_price = 120
+second_price = 80
+total = first_price + second_price
+print(total)
+`;
 const challengeCode = `# Set the two numbers
 first_number = 8
 second_number = 5
@@ -55,6 +64,26 @@ checkQuizButton.addEventListener("click", function () {
     }
 });
 
+checkOperatorQuizButton.addEventListener("click", function () {
+    const selectedAnswer = document.querySelector('input[name="operatorQuizAnswer"]:checked');
+
+    operatorQuizFeedback.classList.remove("feedback-success", "feedback-error");
+
+    if (!selectedAnswer) {
+        operatorQuizFeedback.textContent = "Choose an answer first.";
+        operatorQuizFeedback.classList.add("feedback-error");
+        return;
+    }
+
+    if (selectedAnswer.value === "b") {
+        operatorQuizFeedback.textContent = "Correct! The % operator gives the remainder: 17 divided by 5 leaves 2.";
+        operatorQuizFeedback.classList.add("feedback-success");
+    } else {
+        operatorQuizFeedback.textContent = "Not quite. The % operator gives the remainder left after division.";
+        operatorQuizFeedback.classList.add("feedback-error");
+    }
+});
+
 async function initializePython() {
     try {
         pyodide = await loadPyodide();
@@ -79,6 +108,16 @@ loadChallengeButton.addEventListener("click", function () {
     pythonCode.value = challengeCode;
     challengeMode = true;
     setChallengeFeedback("Complete the code, then select Check challenge.", "");
+    pythonCode.focus();
+});
+
+loadOperatorExampleButton.addEventListener("click", function () {
+    pythonCode.value = operatorExampleCode;
+    challengeMode = false;
+    setChallengeFeedback("", "");
+    playgroundStatus.textContent = "Example loaded. Select Run Python to see the total.";
+    pythonOutput.textContent = "Example loaded. Select Run Python to see the total.";
+    document.getElementById("playground").scrollIntoView({ behavior: "smooth" });
     pythonCode.focus();
 });
 
