@@ -20,6 +20,7 @@
             <a href="#operators">Lesson 2</a>
             <a href="#decisions">Lesson 3</a>
             <a href="#loops">Lesson 4</a>
+            <a href="#collections">Lesson 5</a>
             <a href="#playground">Code Playground</a>
         </nav>
 
@@ -482,6 +483,114 @@ while count &lt;= 3:
                         and printing a message for each number.
                     </p>
                     <button id="loadLoopExampleButton" class="secondary-button" type="button">
+                        Load starter example
+                    </button>
+                </article>
+            </div>
+        </section>
+
+        <section id="collections" class="content-section">
+            <div class="section-heading">
+                <p class="tagline">LESSON 5 · PYTHON COLLECTIONS</p>
+                <h2>Store groups of information</h2>
+                <p class="section-intro">
+                    Collections let you keep related values together. Start
+                    with lists for ordered items and dictionaries for
+                    information labelled with keys.
+                </p>
+            </div>
+
+            <div class="lesson-grid">
+                <article class="lesson-card">
+                    <h3>Create a list</h3>
+                    <p>
+                        A <strong>list</strong> stores multiple values in order.
+                        Write its items inside square brackets and separate
+                        them with commas.
+                    </p>
+                    <pre class="example-code"><code>fruits = ["mango", "banana", "orange"]
+print(fruits)</code></pre>
+                </article>
+
+                <article class="lesson-card">
+                    <h3>Read an item by its index</h3>
+                    <p>
+                        List positions are called <strong>indexes</strong>.
+                        Python starts counting indexes at zero, so the first
+                        item is at index <code>0</code>.
+                    </p>
+                    <pre class="example-code"><code>fruits = ["mango", "banana", "orange"]
+print(fruits[0])  # mango
+print(fruits[1])  # banana</code></pre>
+                </article>
+
+                <article class="lesson-card">
+                    <h3>Add and change list items</h3>
+                    <p>
+                        Use <code>append()</code> to add an item at the end.
+                        Assign a new value at an index to change an item.
+                    </p>
+                    <pre class="example-code"><code>fruits = ["mango", "banana"]
+fruits.append("orange")
+fruits[0] = "pineapple"
+print(fruits)</code></pre>
+                </article>
+
+                <article class="lesson-card">
+                    <h3>Find how many items</h3>
+                    <p>
+                        The <code>len()</code> function returns the number of
+                        items in a list. A <code>for</code> loop can visit each
+                        item in order.
+                    </p>
+                    <pre class="example-code"><code>fruits = ["mango", "banana", "orange"]
+print(len(fruits))
+
+for fruit in fruits:
+    print(fruit)</code></pre>
+                </article>
+
+                <article class="lesson-card lesson-card-wide">
+                    <h3>Use a dictionary for labelled information</h3>
+                    <p>
+                        A <strong>dictionary</strong> stores values under
+                        descriptive keys. Use curly braces with a
+                        <code>key: value</code> pair, then look up a value by
+                        its key.
+                    </p>
+                    <pre class="example-code"><code>learner = {
+    "name": "Amina",
+    "level": 1
+}
+
+print(learner["name"])
+learner["level"] = 2</code></pre>
+                </article>
+
+                <article class="lesson-card quiz-card">
+                    <h3>Quick quiz</h3>
+                    <p>
+                        What does <code>colours[0]</code> access in this list?
+                    </p>
+                    <pre class="example-code"><code>colours = ["purple", "blue", "green"]</code></pre>
+                    <fieldset class="quiz-options">
+                        <legend class="visually-hidden">Choose one answer</legend>
+                        <label><input type="radio" name="collectionQuizAnswer" value="a"> The first item, <code>"purple"</code></label>
+                        <label><input type="radio" name="collectionQuizAnswer" value="b"> The second item, <code>"blue"</code></label>
+                        <label><input type="radio" name="collectionQuizAnswer" value="c"> The number of items</label>
+                    </fieldset>
+                    <button id="checkCollectionQuizButton" class="primary-button" type="button">Check answer</button>
+                    <p id="collectionQuizFeedback" class="feedback" aria-live="polite"></p>
+                </article>
+
+                <article class="lesson-card exercise-card">
+                    <h3>Practise with a list</h3>
+                    <p>
+                        Load a list of fruits into the playground. Add one with
+                        <code>append()</code>, then loop through the list to
+                        print each fruit.
+                    </p>
+                    <button id="loadCollectionExampleButton" class="secondary-button" type="button">
                         Load starter example
                     </button>
                 </article>

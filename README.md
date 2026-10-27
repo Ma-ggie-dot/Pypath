@@ -52,6 +52,8 @@ No separate Python installation is needed for the current browser playground.
   `if`/`elif`/`else`, and combining conditions.
 - **Lesson 4: Python loops** - repeating instructions with `for`, `while`,
   and `range()`.
+- **Lesson 5: Python collections** - creating and changing lists, using
+  indexes, looping through items, and storing labelled values in dictionaries.
 
 ## Development approach
 

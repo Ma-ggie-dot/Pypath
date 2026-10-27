@@ -13,6 +13,9 @@ const loadConditionExampleButton = document.getElementById("loadConditionExample
 const checkLoopQuizButton = document.getElementById("checkLoopQuizButton");
 const loopQuizFeedback = document.getElementById("loopQuizFeedback");
 const loadLoopExampleButton = document.getElementById("loadLoopExampleButton");
+const checkCollectionQuizButton = document.getElementById("checkCollectionQuizButton");
+const collectionQuizFeedback = document.getElementById("collectionQuizFeedback");
+const loadCollectionExampleButton = document.getElementById("loadCollectionExampleButton");
 const pythonCode = document.getElementById("pythonCode");
 const runCodeButton = document.getElementById("runCodeButton");
 const resetCodeButton = document.getElementById("resetCodeButton");
@@ -40,6 +43,13 @@ else:
 const loopExampleCode = `# Print the numbers from 1 through 5
 for number in range(1, 6):
     print(number)
+`;
+const collectionExampleCode = `# Add a fruit, then print every item in the list
+fruits = ["mango", "banana", "orange"]
+fruits.append("pineapple")
+
+for fruit in fruits:
+    print(fruit)
 `;
 const challengeCode = `# Set the two numbers
 first_number = 8
@@ -142,6 +152,26 @@ checkLoopQuizButton.addEventListener("click", function () {
     }
 });
 
+checkCollectionQuizButton.addEventListener("click", function () {
+    const selectedAnswer = document.querySelector('input[name="collectionQuizAnswer"]:checked');
+
+    collectionQuizFeedback.classList.remove("feedback-success", "feedback-error");
+
+    if (!selectedAnswer) {
+        collectionQuizFeedback.textContent = "Choose an answer first.";
+        collectionQuizFeedback.classList.add("feedback-error");
+        return;
+    }
+
+    if (selectedAnswer.value === "a") {
+        collectionQuizFeedback.textContent = 'Correct! List indexes start at 0, so colours[0] is "purple".';
+        collectionQuizFeedback.classList.add("feedback-success");
+    } else {
+        collectionQuizFeedback.textContent = "Not quite. Python starts list indexes at 0, which means index 0 is the first item.";
+        collectionQuizFeedback.classList.add("feedback-error");
+    }
+});
+
 async function initializePython() {
     try {
         pyodide = await loadPyodide();
@@ -195,6 +225,16 @@ loadLoopExampleButton.addEventListener("click", function () {
     setChallengeFeedback("", "");
     playgroundStatus.textContent = "Starter example loaded. Select Run Python to see the loop.";
     pythonOutput.textContent = "Starter example loaded. Select Run Python to see the loop.";
+    document.getElementById("playground").scrollIntoView({ behavior: "smooth" });
+    pythonCode.focus();
+});
+
+loadCollectionExampleButton.addEventListener("click", function () {
+    pythonCode.value = collectionExampleCode;
+    challengeMode = false;
+    setChallengeFeedback("", "");
+    playgroundStatus.textContent = "Starter example loaded. Select Run Python to see the fruits.";
+    pythonOutput.textContent = "Starter example loaded. Select Run Python to see the fruits.";
     document.getElementById("playground").scrollIntoView({ behavior: "smooth" });
     pythonCode.focus();
 });
