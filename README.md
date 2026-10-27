@@ -46,11 +46,10 @@ Open PowerShell in the project folder and run:
 
 ```powershell
 python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
 cd backend
-python manage.py test core
-python manage.py runserver
+..\.venv\Scripts\python.exe manage.py test core
+..\.venv\Scripts\python.exe manage.py runserver
 ```
 
 Open `http://127.0.0.1:8000/health/` in your browser. The response should be
