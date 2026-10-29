@@ -41,6 +41,11 @@ const playgroundStatus = document.getElementById("playgroundStatus");
 const pythonOutput = document.getElementById("pythonOutput");
 
 const starterCode = pythonCode.value;
+const lessonSearch = document.getElementById("lessonSearch");
+const clearLessonSearchButton = document.getElementById("clearLessonSearchButton");
+const lessonCatalogEmpty = document.getElementById("lessonCatalogEmpty");
+const closeLessonButton = document.getElementById("closeLessonButton");
+let publishedLessonCards = [];
 const operatorExampleCode = `# Change the prices and run the calculation
 first_price = 120
 second_price = 80
@@ -132,9 +137,11 @@ async function loadPublishedLessons() {
         }
 
         catalog.replaceChildren();
+        publishedLessonCards = [];
 
         if (data.lessons.length === 0) {
             status.textContent = "There are no published lessons yet. Publish lessons in Django admin to show them here.";
+            lessonSearch.disabled = true;
             return;
         }
 
@@ -149,7 +156,11 @@ async function loadPublishedLessons() {
             }
 
             const card = document.createElement("article");
-            card.className = "lesson-card";
+            card.className = "lesson-card lesson-catalog-card";
+
+            const number = document.createElement("span");
+            number.className = "lesson-number";
+            number.textContent = `LESSON ${String(lesson.order).padStart(2, "0")}`;
 
             const heading = document.createElement("h3");
             heading.textContent = lesson.title;
@@ -169,24 +180,56 @@ async function loadPublishedLessons() {
                 selectedLesson.focus();
             });
 
-            card.append(heading, description, button);
+            card.append(number, heading, description, button);
 
             catalog.append(card);
+            publishedLessonCards.push({ card, lesson });
         });
 
-        status.textContent = `${data.lessons.length} published lessons loaded from Django.`;
+        lessonSearch.disabled = false;
+        clearLessonSearchButton.disabled = true;
+        status.textContent = `${data.lessons.length} published lessons ready to explore.`;
     } catch (error) {
         status.textContent = `Could not load lessons from Django: ${error.message} Check that the backend is running, then refresh this page.`;
         console.error("Could not load published lessons:", error);
     }
 }
 
+lessonSearch.addEventListener("input", function () {
+    const searchTerm = lessonSearch.value.trim().toLowerCase();
+    let visibleCount = 0;
+    clearLessonSearchButton.disabled = searchTerm.length === 0;
+
+    publishedLessonCards.forEach(({ card, lesson }) => {
+        const searchableText = `${lesson.title} ${lesson.description}`.toLowerCase();
+        card.hidden = !searchableText.includes(searchTerm);
+        if (!card.hidden) {
+            visibleCount += 1;
+        }
+    });
+
+    lessonCatalogEmpty.hidden = visibleCount > 0;
+    document.getElementById("lessonCatalogStatus").textContent = searchTerm
+        ? `Showing ${visibleCount} of ${publishedLessonCards.length} lessons.`
+        : `${publishedLessonCards.length} published lessons ready to explore.`;
+});
+
+clearLessonSearchButton.addEventListener("click", function () {
+    lessonSearch.value = "";
+    lessonSearch.dispatchEvent(new Event("input", { bubbles: true }));
+    lessonSearch.focus();
+});
+
+closeLessonButton.addEventListener("click", function () {
+    document.getElementById("selectedLesson").hidden = true;
+});
+
 startButton.addEventListener("click", function () {
-    document.getElementById("learn").scrollIntoView({ behavior: "smooth" });
+    document.getElementById("lessonLibrary").scrollIntoView({ behavior: "smooth" });
 });
 
 learnButton.addEventListener("click", function () {
-    document.getElementById("learn").scrollIntoView({ behavior: "smooth" });
+    document.getElementById("lessonLibrary").scrollIntoView({ behavior: "smooth" });
 });
 
 exploreButton.addEventListener("click", function () {

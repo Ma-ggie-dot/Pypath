@@ -24,17 +24,17 @@ Python in a browser-based playground.
 - **MySQL** will store application data, accessed through Django's ORM. SQL
   will also be learned and practised as part of database development.
 
-The backend runs separately from the current static frontend. Its first
-`/health/` endpoint confirms Django is responding. MySQL, accounts, and lesson
-APIs are not configured yet.
+The Django backend serves the integrated homepage, a health-check endpoint,
+and a read-only published-lessons API. MySQL and user accounts are later
+development milestones.
 
 ## Run the current website
 
 1. Start the Django server using the commands below.
 2. Open `http://127.0.0.1:8000/` in a browser.
 3. Keep an internet connection available while Pyodide loads for the first time.
-4. The lesson library loads published lesson titles and descriptions from
-   Django. Use its links to open the corresponding interactive lesson.
+4. Search the Django-backed lesson library and select **Read lesson** to view
+   published course content.
 5. Use **Load challenge** in the playground to try the add-two-numbers exercise.
 
 No separate Python installation is needed for the current browser playground.
@@ -66,9 +66,10 @@ database setting; MySQL will be configured in a later database milestone.
 
 The read-only `GET /api/lessons/` endpoint returns published lessons as JSON,
 ordered by lesson number. Unpublished lessons are not included. The homepage
-loads this endpoint to display its lesson library, and **Read lesson** shows
-the content saved in Django. Lesson content is inserted as text, not executed
-as HTML. Python code execution continues to run in the browser with Pyodide.
+loads this endpoint to display a searchable lesson library; **Read lesson**
+shows the content saved in Django. Lesson content is inserted as text, not
+executed as HTML. Python code execution continues to run in the browser with
+Pyodide.
 
 Run the API tests from the `backend` folder with:
 

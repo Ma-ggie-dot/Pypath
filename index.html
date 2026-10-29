@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PyPath | Learn Python by Doing</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'style.css' %}?v=2">
+    <link rel="stylesheet" href="{% static 'style.css' %}?v=4">
     <script defer src="https://cdn.jsdelivr.net/pyodide/v314.0.7/full/pyodide.js"></script>
-    <script defer src="{% static 'script.js' %}?v=2"></script>
+    <script defer src="{% static 'script.js' %}?v=4"></script>
 </head>
 <body>
 
@@ -17,17 +17,7 @@
 
         <nav>
             <a href="#home">Home</a>
-            <a href="#learn">Lesson 1</a>
-            <a href="#operators">Lesson 2</a>
-            <a href="#decisions">Lesson 3</a>
-            <a href="#loops">Lesson 4</a>
-            <a href="#collections">Lesson 5</a>
-            <a href="#functions">Lesson 6</a>
-            <a href="#strings">Lesson 7</a>
-            <a href="#errors">Lesson 8</a>
-            <a href="#files">Lesson 9</a>
-            <a href="#objects">Lesson 10</a>
-            <a href="#lessonLibrary">Lesson library</a>
+            <a href="#lessonLibrary">Lessons</a>
             <a href="#playground">Code Playground</a>
         </nav>
 
@@ -38,7 +28,7 @@
 
     <main>
         <section id="home" class="hero">
-            <p class="tagline">YOUR JOURNEY INTO PROGRAMMING STARTS HERE</p>
+            <p class="tagline">YOUR INTERACTIVE PYTHON LEARNING PATH</p>
 
             <h1>Learn Python.<br>
                 <span>Build Something Amazing.</span>
@@ -51,7 +41,7 @@
 
             <div class="hero-buttons">
                 <button id="learnButton" class="primary-button">
-                    Start Learning →
+                    Explore lessons →
                 </button>
 
                 <button id="exploreButton" class="secondary-button">
@@ -92,10 +82,27 @@
             <p id="lessonCatalogStatus" class="playground-status" aria-live="polite">
                 Loading published lessons from the Django backend...
             </p>
+            <div class="lesson-search">
+                <label for="lessonSearch">Find a lesson</label>
+                <div class="lesson-search-controls">
+                    <input id="lessonSearch" type="search" placeholder="Search lessons by topic..."
+                        autocomplete="off" disabled>
+                    <button id="clearLessonSearchButton" class="secondary-button" type="button" disabled>
+                        Clear
+                    </button>
+                </div>
+            </div>
             <div id="lessonCatalog" class="lesson-grid" aria-live="polite"></div>
+            <p id="lessonCatalogEmpty" class="empty-state" hidden>No lessons match that search. Try another word.</p>
             <article id="selectedLesson" class="lesson-card lesson-detail" tabindex="-1" hidden>
-                <h3 id="selectedLessonTitle"></h3>
-                <p id="selectedLessonDescription"></p>
+                <div class="lesson-detail-heading">
+                    <div>
+                        <p class="challenge-label">LESSON CONTENT</p>
+                        <h3 id="selectedLessonTitle"></h3>
+                        <p id="selectedLessonDescription"></p>
+                    </div>
+                    <button id="closeLessonButton" class="secondary-button" type="button">Close lesson</button>
+                </div>
                 <pre id="selectedLessonContent" class="lesson-content"></pre>
             </article>
         </section>
