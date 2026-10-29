@@ -60,6 +60,20 @@ ignored by Git. The backend currently uses Django's local SQLite development
 database setting; MySQL will be configured in a later database milestone.
 The static frontend is still opened separately from `index.html`.
 
+## Lesson API
+
+The read-only `GET /api/lessons/` endpoint returns published lessons as JSON,
+ordered by lesson number. For example, open
+`http://127.0.0.1:8000/api/lessons/` while the Django server is running.
+Unpublished lessons are not included. The static frontend is not connected to
+this API yet.
+
+Run the API tests from the `backend` folder with:
+
+```powershell
+..\.venv\Scripts\python.exe manage.py test lessons
+```
+
 ## Project files
 
 - `index.html` - homepage, first lesson, quiz, challenge, and playground.
