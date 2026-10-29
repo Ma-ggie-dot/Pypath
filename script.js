@@ -44,8 +44,16 @@ const starterCode = pythonCode.value;
 const lessonSearch = document.getElementById("lessonSearch");
 const clearLessonSearchButton = document.getElementById("clearLessonSearchButton");
 const lessonCatalogEmpty = document.getElementById("lessonCatalogEmpty");
+const lessonProgressText = document.getElementById("lessonProgressText");
+const lessonProgressStatus = document.getElementById("lessonProgressStatus");
+const lessonProgressBar = document.querySelector(".progress-track");
+const lessonProgressFill = document.getElementById("lessonProgressBar");
+const markLessonCompleteButton = document.getElementById("markLessonCompleteButton");
 const closeLessonButton = document.getElementById("closeLessonButton");
 let publishedLessonCards = [];
+let currentLesson = null;
+let completedLessonSlugs = new Set();
+const lessonProgressStorageKey = "pypath.completedLessons";
 const operatorExampleCode = `# Change the prices and run the calculation
 first_price = 120
 second_price = 80
@@ -117,6 +125,52 @@ second_number = 5
 let pyodide;
 let challengeMode = false;
 
+function updateLessonProgress() {
+    const completedCount = publishedLessonCards.filter(({ lesson }) =>
+        completedLessonSlugs.has(lesson.slug)
+    ).length;
+    const totalLessons = publishedLessonCards.length;
+    const percentage = totalLessons === 0 ? 0 : (completedCount / totalLessons) * 100;
+
+    lessonProgressText.textContent = `${completedCount} of ${totalLessons} lessons completed`;
+    lessonProgressBar.setAttribute("aria-valuemax", String(totalLessons));
+    lessonProgressBar.setAttribute("aria-valuenow", String(completedCount));
+    lessonProgressFill.style.width = `${percentage}%`;
+
+    publishedLessonCards.forEach(({ card, lesson }) => {
+        const isCompleted = completedLessonSlugs.has(lesson.slug);
+        card.querySelector(".lesson-completed-badge").hidden = !isCompleted;
+    });
+
+    if (currentLesson) {
+        const isCompleted = completedLessonSlugs.has(currentLesson.slug);
+        markLessonCompleteButton.textContent = isCompleted
+            ? "Mark as not complete"
+            : "Mark lesson complete";
+        markLessonCompleteButton.setAttribute("aria-pressed", String(isCompleted));
+    }
+}
+
+function restoreLessonProgress(lessons) {
+    try {
+        const savedProgress = localStorage.getItem(lessonProgressStorageKey);
+        if (savedProgress === null) {
+            return;
+        }
+
+        const savedSlugs = JSON.parse(savedProgress);
+        if (!Array.isArray(savedSlugs) || savedSlugs.some((slug) => typeof slug !== "string")) {
+            throw new Error("Saved lesson progress has an invalid format.");
+        }
+
+        const publishedSlugs = new Set(lessons.map((lesson) => lesson.slug));
+        completedLessonSlugs = new Set(savedSlugs.filter((slug) => publishedSlugs.has(slug)));
+    } catch (error) {
+        lessonProgressStatus.textContent = `Could not load saved progress: ${error.message}`;
+        console.error("Could not load saved lesson progress:", error);
+    }
+}
+
 async function loadPublishedLessons() {
     const status = document.getElementById("lessonCatalogStatus");
     const catalog = document.getElementById("lessonCatalog");
@@ -142,12 +196,16 @@ async function loadPublishedLessons() {
         if (data.lessons.length === 0) {
             status.textContent = "There are no published lessons yet. Publish lessons in Django admin to show them here.";
             lessonSearch.disabled = true;
+            updateLessonProgress();
             return;
         }
+
+        restoreLessonProgress(data.lessons);
 
         data.lessons.forEach((lesson) => {
             if (
                 typeof lesson.title !== "string" ||
+                typeof lesson.slug !== "string" ||
                 typeof lesson.description !== "string" ||
                 typeof lesson.content !== "string" ||
                 typeof lesson.order !== "number"
@@ -162,6 +220,15 @@ async function loadPublishedLessons() {
             number.className = "lesson-number";
             number.textContent = `LESSON ${String(lesson.order).padStart(2, "0")}`;
 
+            const completedBadge = document.createElement("span");
+            completedBadge.className = "lesson-completed-badge";
+            completedBadge.textContent = "Completed";
+            completedBadge.hidden = true;
+
+            const metadata = document.createElement("div");
+            metadata.className = "lesson-card-meta";
+            metadata.append(number, completedBadge);
+
             const heading = document.createElement("h3");
             heading.textContent = lesson.title;
 
@@ -173,14 +240,16 @@ async function loadPublishedLessons() {
             button.type = "button";
             button.textContent = "Read lesson";
             button.addEventListener("click", function () {
+                currentLesson = lesson;
                 selectedLessonTitle.textContent = lesson.title;
                 selectedLessonDescription.textContent = lesson.description;
                 selectedLessonContent.textContent = lesson.content;
                 selectedLesson.hidden = false;
+                updateLessonProgress();
                 selectedLesson.focus();
             });
 
-            card.append(number, heading, description, button);
+            card.append(metadata, heading, description, button);
 
             catalog.append(card);
             publishedLessonCards.push({ card, lesson });
@@ -189,6 +258,7 @@ async function loadPublishedLessons() {
         lessonSearch.disabled = false;
         clearLessonSearchButton.disabled = true;
         status.textContent = `${data.lessons.length} published lessons ready to explore.`;
+        updateLessonProgress();
     } catch (error) {
         status.textContent = `Could not load lessons from Django: ${error.message} Check that the backend is running, then refresh this page.`;
         console.error("Could not load published lessons:", error);
@@ -220,8 +290,36 @@ clearLessonSearchButton.addEventListener("click", function () {
     lessonSearch.focus();
 });
 
+markLessonCompleteButton.addEventListener("click", function () {
+    if (!currentLesson) {
+        return;
+    }
+
+    const wasCompleted = completedLessonSlugs.has(currentLesson.slug);
+    if (wasCompleted) {
+        completedLessonSlugs.delete(currentLesson.slug);
+    } else {
+        completedLessonSlugs.add(currentLesson.slug);
+    }
+
+    try {
+        localStorage.setItem(lessonProgressStorageKey, JSON.stringify([...completedLessonSlugs]));
+        lessonProgressStatus.textContent = "Progress is saved in this browser.";
+        updateLessonProgress();
+    } catch (error) {
+        if (wasCompleted) {
+            completedLessonSlugs.add(currentLesson.slug);
+        } else {
+            completedLessonSlugs.delete(currentLesson.slug);
+        }
+        lessonProgressStatus.textContent = `Could not save your progress: ${error.message}`;
+        console.error("Could not save lesson progress:", error);
+    }
+});
+
 closeLessonButton.addEventListener("click", function () {
     document.getElementById("selectedLesson").hidden = true;
+    currentLesson = null;
 });
 
 startButton.addEventListener("click", function () {

@@ -53,6 +53,7 @@ class LessonListTests(TestCase):
         response = self.client.get("/")
 
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'href="/static/style.css?v=4"')
-        self.assertContains(response, 'src="/static/script.js?v=4"')
+        self.assertContains(response, 'href="/static/style.css?v=5"')
+        self.assertContains(response, 'src="/static/script.js?v=5"')
         self.assertContains(response, 'id="lessonLibrary"')
+        self.assertContains(response, 'id="markLessonCompleteButton"')

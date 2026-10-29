@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PyPath | Learn Python by Doing</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'style.css' %}?v=4">
+    <link rel="stylesheet" href="{% static 'style.css' %}?v=5">
     <script defer src="https://cdn.jsdelivr.net/pyodide/v314.0.7/full/pyodide.js"></script>
-    <script defer src="{% static 'script.js' %}?v=4"></script>
+    <script defer src="{% static 'script.js' %}?v=5"></script>
 </head>
 <body>
 
@@ -82,6 +82,18 @@
             <p id="lessonCatalogStatus" class="playground-status" aria-live="polite">
                 Loading published lessons from the Django backend...
             </p>
+            <div class="learning-progress">
+                <div class="learning-progress-heading">
+                    <strong id="lessonProgressText">0 of 0 lessons completed</strong>
+                    <span id="lessonProgressStatus" aria-live="polite">
+                        Progress is saved in this browser.
+                    </span>
+                </div>
+                <div class="progress-track" role="progressbar" aria-label="Lessons completed"
+                    aria-valuemin="0" aria-valuemax="0" aria-valuenow="0">
+                    <span id="lessonProgressBar" class="progress-fill"></span>
+                </div>
+            </div>
             <div class="lesson-search">
                 <label for="lessonSearch">Find a lesson</label>
                 <div class="lesson-search-controls">
@@ -101,7 +113,11 @@
                         <h3 id="selectedLessonTitle"></h3>
                         <p id="selectedLessonDescription"></p>
                     </div>
-                    <button id="closeLessonButton" class="secondary-button" type="button">Close lesson</button>
+                    <div class="lesson-detail-actions">
+                        <button id="markLessonCompleteButton" class="primary-button" type="button"
+                            aria-pressed="false">Mark lesson complete</button>
+                        <button id="closeLessonButton" class="secondary-button" type="button">Close lesson</button>
+                    </div>
                 </div>
                 <pre id="selectedLessonContent" class="lesson-content"></pre>
             </article>
