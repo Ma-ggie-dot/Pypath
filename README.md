@@ -66,8 +66,9 @@ database setting; MySQL will be configured in a later database milestone.
 
 The read-only `GET /api/lessons/` endpoint returns published lessons as JSON,
 ordered by lesson number. Unpublished lessons are not included. The homepage
-loads this endpoint to display its lesson library. Python code execution
-continues to run in the browser with Pyodide.
+loads this endpoint to display its lesson library, and **Read lesson** shows
+the content saved in Django. Lesson content is inserted as text, not executed
+as HTML. Python code execution continues to run in the browser with Pyodide.
 
 Run the API tests from the `backend` folder with:
 

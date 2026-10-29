@@ -41,18 +41,6 @@ const playgroundStatus = document.getElementById("playgroundStatus");
 const pythonOutput = document.getElementById("pythonOutput");
 
 const starterCode = pythonCode.value;
-const lessonSectionIds = {
-    1: "learn",
-    2: "operators",
-    3: "decisions",
-    4: "loops",
-    5: "collections",
-    6: "functions",
-    7: "strings",
-    8: "errors",
-    9: "files",
-    10: "objects"
-};
 const operatorExampleCode = `# Change the prices and run the calculation
 first_price = 120
 second_price = 80
@@ -127,6 +115,10 @@ let challengeMode = false;
 async function loadPublishedLessons() {
     const status = document.getElementById("lessonCatalogStatus");
     const catalog = document.getElementById("lessonCatalog");
+    const selectedLesson = document.getElementById("selectedLesson");
+    const selectedLessonTitle = document.getElementById("selectedLessonTitle");
+    const selectedLessonDescription = document.getElementById("selectedLessonDescription");
+    const selectedLessonContent = document.getElementById("selectedLessonContent");
 
     try {
         const response = await fetch("/api/lessons/");
@@ -150,9 +142,10 @@ async function loadPublishedLessons() {
             if (
                 typeof lesson.title !== "string" ||
                 typeof lesson.description !== "string" ||
+                typeof lesson.content !== "string" ||
                 typeof lesson.order !== "number"
             ) {
-                throw new Error("A lesson from the API is missing its title, description, or order.");
+                throw new Error("A lesson from the API is missing its title, description, content, or order.");
             }
 
             const card = document.createElement("article");
@@ -164,16 +157,19 @@ async function loadPublishedLessons() {
             const description = document.createElement("p");
             description.textContent = lesson.description;
 
-            card.append(heading, description);
+            const button = document.createElement("button");
+            button.className = "secondary-button";
+            button.type = "button";
+            button.textContent = "Read lesson";
+            button.addEventListener("click", function () {
+                selectedLessonTitle.textContent = lesson.title;
+                selectedLessonDescription.textContent = lesson.description;
+                selectedLessonContent.textContent = lesson.content;
+                selectedLesson.hidden = false;
+                selectedLesson.focus();
+            });
 
-            const sectionId = lessonSectionIds[lesson.order];
-            if (sectionId) {
-                const link = document.createElement("a");
-                link.className = "text-link";
-                link.href = `#${sectionId}`;
-                link.textContent = "Open interactive lesson";
-                card.append(link);
-            }
+            card.append(heading, description, button);
 
             catalog.append(card);
         });

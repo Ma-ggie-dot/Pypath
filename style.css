@@ -205,6 +205,28 @@ button:hover {
     color: #ddd6fe;
 }
 
+.lesson-card .secondary-button {
+    margin-top: 15px;
+}
+
+.lesson-detail {
+    margin-top: 24px;
+    scroll-margin-top: 20px;
+}
+
+.lesson-detail[hidden] {
+    display: none;
+}
+
+.lesson-content {
+    margin-top: 16px;
+    color: #e2e8f0;
+    font-family: Consolas, "Courier New", monospace;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
 .lesson-card-wide {
     grid-column: 1 / -1;
 }

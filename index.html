@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PyPath | Learn Python by Doing</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="{% static 'style.css' %}?v=2">
     <script defer src="https://cdn.jsdelivr.net/pyodide/v314.0.7/full/pyodide.js"></script>
-    <script defer src="{% static 'script.js' %}"></script>
+    <script defer src="{% static 'script.js' %}?v=2"></script>
 </head>
 <body>
 
@@ -85,15 +85,19 @@
                 <p class="tagline">PUBLISHED COURSE CONTENT</p>
                 <h2>Lessons from Django</h2>
                 <p class="section-intro">
-                    This lesson list is loaded from the PyPath database through
-                    the Django API. Choose a lesson to jump to its interactive
-                    page below.
+                    Published lessons come from the PyPath database. Choose a
+                    lesson to read the content saved in Django.
                 </p>
             </div>
             <p id="lessonCatalogStatus" class="playground-status" aria-live="polite">
                 Loading published lessons from the Django backend...
             </p>
             <div id="lessonCatalog" class="lesson-grid" aria-live="polite"></div>
+            <article id="selectedLesson" class="lesson-card lesson-detail" tabindex="-1" hidden>
+                <h3 id="selectedLessonTitle"></h3>
+                <p id="selectedLessonDescription"></p>
+                <pre id="selectedLessonContent" class="lesson-content"></pre>
+            </article>
         </section>
 
         <section id="learn" class="content-section">
