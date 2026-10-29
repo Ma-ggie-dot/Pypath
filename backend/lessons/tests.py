@@ -48,3 +48,11 @@ class LessonListTests(TestCase):
         response = self.client.post("/api/lessons/")
 
         self.assertEqual(response.status_code, 405)
+
+    def test_homepage_serves_frontend_with_django_static_paths(self):
+        response = self.client.get("/")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'href="/static/style.css"')
+        self.assertContains(response, 'src="/static/script.js"')
+        self.assertContains(response, 'id="lessonLibrary"')

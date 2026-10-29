@@ -30,11 +30,12 @@ APIs are not configured yet.
 
 ## Run the current website
 
-1. Open this folder in Visual Studio Code.
-2. Open `index.html` in a browser.
+1. Start the Django server using the commands below.
+2. Open `http://127.0.0.1:8000/` in a browser.
 3. Keep an internet connection available while Pyodide loads for the first time.
-4. Open the lesson, then use **Load challenge** in the playground to try the
-   add-two-numbers exercise.
+4. The lesson library loads published lesson titles and descriptions from
+   Django. Use its links to open the corresponding interactive lesson.
+5. Use **Load challenge** in the playground to try the add-two-numbers exercise.
 
 No separate Python installation is needed for the current browser playground.
 The Django backend does require Python and the dependencies in
@@ -52,21 +53,21 @@ cd backend
 ..\.venv\Scripts\python.exe manage.py runserver
 ```
 
-Open `http://127.0.0.1:8000/health/` in your browser. The response should be
-JSON with `"status": "ok"`. Stop the local server with **Ctrl+C**.
+Open `http://127.0.0.1:8000/` for the integrated website, or
+`http://127.0.0.1:8000/health/` to check the backend status. The health
+response should be JSON with `"status": "ok"`. Stop the local server with
+**Ctrl+C**.
 
 The `.venv` folder contains this project's isolated Python packages and is
 ignored by Git. The backend currently uses Django's local SQLite development
 database setting; MySQL will be configured in a later database milestone.
-The static frontend is still opened separately from `index.html`.
 
 ## Lesson API
 
 The read-only `GET /api/lessons/` endpoint returns published lessons as JSON,
-ordered by lesson number. For example, open
-`http://127.0.0.1:8000/api/lessons/` while the Django server is running.
-Unpublished lessons are not included. The static frontend is not connected to
-this API yet.
+ordered by lesson number. Unpublished lessons are not included. The homepage
+loads this endpoint to display its lesson library. Python code execution
+continues to run in the browser with Pyodide.
 
 Run the API tests from the `backend` folder with:
 
@@ -80,7 +81,7 @@ Run the API tests from the `backend` folder with:
 - `style.css` - page styles and responsive layout.
 - `script.js` - interactive behaviour and Pyodide integration.
 - `requirements.txt` - Python backend dependencies.
-- `backend/` - Django project and its first `core` app.
+- `backend/` - Django project with `core` and `lessons` apps.
 
 ## Lessons currently available
 
@@ -111,7 +112,8 @@ The project is being built in small, testable milestones:
 
 1. Frontend foundations with HTML, CSS, and JavaScript (complete).
 2. Python lessons and browser-based practice with Pyodide (in progress).
-3. Initial Django backend scaffold and health check (in progress).
+3. Initial Django backend, published-lessons API, and live lesson catalog
+   (complete).
 4. MySQL data storage, authentication, and progress tracking.
 5. Connect frontend pages to Django and build further exercises, projects,
    tests, and deployment.

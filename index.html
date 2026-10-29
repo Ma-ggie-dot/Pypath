@@ -5,9 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PyPath | Learn Python by Doing</title>
-    <link rel="stylesheet" href="style.css">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
     <script defer src="https://cdn.jsdelivr.net/pyodide/v314.0.7/full/pyodide.js"></script>
-    <script defer src="script.js"></script>
+    <script defer src="{% static 'script.js' %}"></script>
 </head>
 <body>
 
@@ -26,6 +27,7 @@
             <a href="#errors">Lesson 8</a>
             <a href="#files">Lesson 9</a>
             <a href="#objects">Lesson 10</a>
+            <a href="#lessonLibrary">Lesson library</a>
             <a href="#playground">Code Playground</a>
         </nav>
 
@@ -76,6 +78,22 @@
                     <p>Test your knowledge with practical exercises.</p>
                 </article>
             </div>
+        </section>
+
+        <section id="lessonLibrary" class="content-section">
+            <div class="section-heading">
+                <p class="tagline">PUBLISHED COURSE CONTENT</p>
+                <h2>Lessons from Django</h2>
+                <p class="section-intro">
+                    This lesson list is loaded from the PyPath database through
+                    the Django API. Choose a lesson to jump to its interactive
+                    page below.
+                </p>
+            </div>
+            <p id="lessonCatalogStatus" class="playground-status" aria-live="polite">
+                Loading published lessons from the Django backend...
+            </p>
+            <div id="lessonCatalog" class="lesson-grid" aria-live="polite"></div>
         </section>
 
         <section id="learn" class="content-section">

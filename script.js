@@ -41,6 +41,18 @@ const playgroundStatus = document.getElementById("playgroundStatus");
 const pythonOutput = document.getElementById("pythonOutput");
 
 const starterCode = pythonCode.value;
+const lessonSectionIds = {
+    1: "learn",
+    2: "operators",
+    3: "decisions",
+    4: "loops",
+    5: "collections",
+    6: "functions",
+    7: "strings",
+    8: "errors",
+    9: "files",
+    10: "objects"
+};
 const operatorExampleCode = `# Change the prices and run the calculation
 first_price = 120
 second_price = 80
@@ -111,6 +123,67 @@ second_number = 5
 `;
 let pyodide;
 let challengeMode = false;
+
+async function loadPublishedLessons() {
+    const status = document.getElementById("lessonCatalogStatus");
+    const catalog = document.getElementById("lessonCatalog");
+
+    try {
+        const response = await fetch("/api/lessons/");
+        if (!response.ok) {
+            throw new Error(`The lessons API returned HTTP ${response.status}.`);
+        }
+
+        const data = await response.json();
+        if (!Array.isArray(data.lessons)) {
+            throw new Error("The lessons API response did not contain a lessons list.");
+        }
+
+        catalog.replaceChildren();
+
+        if (data.lessons.length === 0) {
+            status.textContent = "There are no published lessons yet. Publish lessons in Django admin to show them here.";
+            return;
+        }
+
+        data.lessons.forEach((lesson) => {
+            if (
+                typeof lesson.title !== "string" ||
+                typeof lesson.description !== "string" ||
+                typeof lesson.order !== "number"
+            ) {
+                throw new Error("A lesson from the API is missing its title, description, or order.");
+            }
+
+            const card = document.createElement("article");
+            card.className = "lesson-card";
+
+            const heading = document.createElement("h3");
+            heading.textContent = lesson.title;
+
+            const description = document.createElement("p");
+            description.textContent = lesson.description;
+
+            card.append(heading, description);
+
+            const sectionId = lessonSectionIds[lesson.order];
+            if (sectionId) {
+                const link = document.createElement("a");
+                link.className = "text-link";
+                link.href = `#${sectionId}`;
+                link.textContent = "Open interactive lesson";
+                card.append(link);
+            }
+
+            catalog.append(card);
+        });
+
+        status.textContent = `${data.lessons.length} published lessons loaded from Django.`;
+    } catch (error) {
+        status.textContent = `Could not load lessons from Django: ${error.message} Check that the backend is running, then refresh this page.`;
+        console.error("Could not load published lessons:", error);
+    }
+}
 
 startButton.addEventListener("click", function () {
     document.getElementById("learn").scrollIntoView({ behavior: "smooth" });
@@ -462,3 +535,4 @@ resetCodeButton.addEventListener("click", function () {
 });
 
 initializePython();
+loadPublishedLessons();

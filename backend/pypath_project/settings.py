@@ -37,7 +37,7 @@ ROOT_URLCONF = "pypath_project.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR.parent],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -79,5 +79,6 @@ TIME_ZONE = "Africa/Nairobi"
 USE_I18N = True
 USE_TZ = True
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
+STATICFILES_DIRS = [BASE_DIR.parent]
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
