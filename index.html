@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PyPath | Learn Python by Doing</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'style.css' %}?v=5">
+    <link rel="stylesheet" href="{% static 'style.css' %}?v=6">
     <script defer src="https://cdn.jsdelivr.net/pyodide/v314.0.7/full/pyodide.js"></script>
-    <script defer src="{% static 'script.js' %}?v=5"></script>
+    <script defer src="{% static 'script.js' %}?v=6"></script>
 </head>
 <body>
 
@@ -93,6 +93,14 @@
                     aria-valuemin="0" aria-valuemax="0" aria-valuenow="0">
                     <span id="lessonProgressBar" class="progress-fill"></span>
                 </div>
+            </div>
+            <div class="lesson-progress-filters" role="group" aria-label="Filter lessons by progress">
+                <button class="filter-button is-active" type="button" data-progress-filter="all"
+                    aria-pressed="true">All lessons</button>
+                <button class="filter-button" type="button" data-progress-filter="incomplete"
+                    aria-pressed="false">To do</button>
+                <button class="filter-button" type="button" data-progress-filter="completed"
+                    aria-pressed="false">Completed</button>
             </div>
             <div class="lesson-search">
                 <label for="lessonSearch">Find a lesson</label>

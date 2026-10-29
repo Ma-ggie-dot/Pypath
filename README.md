@@ -35,7 +35,8 @@ development milestones.
 3. Keep an internet connection available while Pyodide loads for the first time.
 4. Search the Django-backed lesson library and select **Read lesson** to view
    published course content. Mark completed lessons to track your course
-   progress in this browser.
+   progress in this browser, then use the progress filters to find completed
+   lessons or lessons still to do.
 5. Use **Load challenge** in the playground to try the add-two-numbers exercise.
 
 No separate Python installation is needed for the current browser playground.
@@ -72,6 +73,8 @@ shows the content saved in Django. Lesson content is inserted as text, not
 executed as HTML. Python code execution continues to run in the browser with
 Pyodide. Completed lesson slugs are saved in the browser's local storage, so
 progress remains on this device and is not synced to an account or backend.
+The lesson library can be filtered by all lessons, completed lessons, or
+lessons still to do.
 
 Run the API tests from the `backend` folder with:
 

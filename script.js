@@ -50,8 +50,10 @@ const lessonProgressBar = document.querySelector(".progress-track");
 const lessonProgressFill = document.getElementById("lessonProgressBar");
 const markLessonCompleteButton = document.getElementById("markLessonCompleteButton");
 const closeLessonButton = document.getElementById("closeLessonButton");
+const lessonProgressFilters = document.querySelectorAll("[data-progress-filter]");
 let publishedLessonCards = [];
 let currentLesson = null;
+let currentProgressFilter = "all";
 let completedLessonSlugs = new Set();
 const lessonProgressStorageKey = "pypath.completedLessons";
 const operatorExampleCode = `# Change the prices and run the calculation
@@ -142,6 +144,8 @@ function updateLessonProgress() {
         card.querySelector(".lesson-completed-badge").hidden = !isCompleted;
     });
 
+    filterLessonCards();
+
     if (currentLesson) {
         const isCompleted = completedLessonSlugs.has(currentLesson.slug);
         markLessonCompleteButton.textContent = isCompleted
@@ -149,6 +153,46 @@ function updateLessonProgress() {
             : "Mark lesson complete";
         markLessonCompleteButton.setAttribute("aria-pressed", String(isCompleted));
     }
+}
+
+function filterLessonCards() {
+    if (publishedLessonCards.length === 0) {
+        lessonCatalogEmpty.hidden = true;
+        return;
+    }
+
+    const searchTerm = lessonSearch.value.trim().toLowerCase();
+    let visibleCount = 0;
+
+    publishedLessonCards.forEach(({ card, lesson }) => {
+        const isCompleted = completedLessonSlugs.has(lesson.slug);
+        const matchesSearch = `${lesson.title} ${lesson.description}`.toLowerCase().includes(searchTerm);
+        const matchesProgress = currentProgressFilter === "all" ||
+            (currentProgressFilter === "completed" && isCompleted) ||
+            (currentProgressFilter === "incomplete" && !isCompleted);
+
+        card.hidden = !matchesSearch || !matchesProgress;
+        if (!card.hidden) {
+            visibleCount += 1;
+        }
+    });
+
+    lessonCatalogEmpty.hidden = visibleCount > 0;
+    if (visibleCount === 0) {
+        lessonCatalogEmpty.textContent = currentProgressFilter === "completed" && searchTerm === ""
+            ? "No completed lessons yet. Open a lesson and mark it complete to see it here."
+            : currentProgressFilter === "incomplete" && searchTerm === ""
+                ? "You have completed every published lesson."
+                : "No lessons match these filters. Try another search or progress filter.";
+    }
+
+    const progressLabel = currentProgressFilter === "all"
+        ? "all lessons"
+        : currentProgressFilter === "completed"
+            ? "completed lessons"
+            : "lessons to do";
+    document.getElementById("lessonCatalogStatus").textContent =
+        `Showing ${visibleCount} of ${publishedLessonCards.length} ${progressLabel}.`;
 }
 
 function restoreLessonProgress(lessons) {
@@ -266,22 +310,21 @@ async function loadPublishedLessons() {
 }
 
 lessonSearch.addEventListener("input", function () {
-    const searchTerm = lessonSearch.value.trim().toLowerCase();
-    let visibleCount = 0;
+    const searchTerm = lessonSearch.value.trim();
     clearLessonSearchButton.disabled = searchTerm.length === 0;
+    filterLessonCards();
+});
 
-    publishedLessonCards.forEach(({ card, lesson }) => {
-        const searchableText = `${lesson.title} ${lesson.description}`.toLowerCase();
-        card.hidden = !searchableText.includes(searchTerm);
-        if (!card.hidden) {
-            visibleCount += 1;
-        }
+lessonProgressFilters.forEach((filterButton) => {
+    filterButton.addEventListener("click", function () {
+        currentProgressFilter = filterButton.dataset.progressFilter;
+        lessonProgressFilters.forEach((button) => {
+            const isActive = button === filterButton;
+            button.classList.toggle("is-active", isActive);
+            button.setAttribute("aria-pressed", String(isActive));
+        });
+        filterLessonCards();
     });
-
-    lessonCatalogEmpty.hidden = visibleCount > 0;
-    document.getElementById("lessonCatalogStatus").textContent = searchTerm
-        ? `Showing ${visibleCount} of ${publishedLessonCards.length} lessons.`
-        : `${publishedLessonCards.length} published lessons ready to explore.`;
 });
 
 clearLessonSearchButton.addEventListener("click", function () {

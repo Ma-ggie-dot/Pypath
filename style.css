@@ -344,6 +344,35 @@ button:hover {
     transition: width 0.25s ease;
 }
 
+.lesson-progress-filters {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: -8px auto 22px;
+}
+
+.filter-button {
+    padding: 8px 14px;
+    border: 1px solid #354361;
+    border-radius: 999px;
+    background: #0d1526;
+    color: #c4cfe0;
+    font-size: 13px;
+}
+
+.filter-button:hover,
+.filter-button.is-active {
+    border-color: #8b5cf6;
+    background: rgb(139 92 246 / 14%);
+    color: #e9ddff;
+}
+
+.filter-button:focus-visible {
+    outline: 2px solid #c4b5fd;
+    outline-offset: 3px;
+}
+
 .lesson-search {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
