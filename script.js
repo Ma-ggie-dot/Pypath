@@ -51,6 +51,24 @@ const lessonProgressFill = document.getElementById("lessonProgressBar");
 const markLessonCompleteButton = document.getElementById("markLessonCompleteButton");
 const closeLessonButton = document.getElementById("closeLessonButton");
 const lessonProgressFilters = document.querySelectorAll("[data-progress-filter]");
+const debugExerciseSelect = document.getElementById("debugExerciseSelect");
+const debugExercisePrompt = document.getElementById("debugExercisePrompt");
+const debugCode = document.getElementById("debugCode");
+const runDebugButton = document.getElementById("runDebugButton");
+const checkDebugButton = document.getElementById("checkDebugButton");
+const resetDebugButton = document.getElementById("resetDebugButton");
+const debugStatus = document.getElementById("debugStatus");
+const debugOutput = document.getElementById("debugOutput");
+const glossarySearch = document.getElementById("glossarySearch");
+const glossaryCatalog = document.getElementById("glossaryCatalog");
+const glossaryEmpty = document.getElementById("glossaryEmpty");
+const projectCatalog = document.getElementById("projectCatalog");
+const projectLoadStatus = document.getElementById("projectLoadStatus");
+const assistantForm = document.getElementById("assistantForm");
+const assistantQuestion = document.getElementById("assistantQuestion");
+const askAssistantButton = document.getElementById("askAssistantButton");
+const assistantStatus = document.getElementById("assistantStatus");
+const assistantAnswer = document.getElementById("assistantAnswer");
 let publishedLessonCards = [];
 let currentLesson = null;
 let currentProgressFilter = "all";
@@ -127,6 +145,71 @@ second_number = 5
 let pyodide;
 let challengeMode = false;
 
+const debugExercises = {
+    name: {
+        prompt: 'The program should say "Hello, Amina!" Fix the misspelled variable.',
+        code: 'learner_name = "Amina"\nprint("Hello,", learn_name + "!")',
+        expected: "Hello, Amina!",
+    },
+    syntax: {
+        prompt: "The learner passes when their score is at least 50. Repair the if statement.",
+        code: "score = 72\n\nif score >= 50\n    print('You passed')\nelse:\n    print('Keep practising')",
+        expected: "You passed",
+    },
+    loop: {
+        prompt: "The loop should print every whole number from 1 through 5. Fix its range.",
+        code: "for number in range(1, 5):\n    print(number)",
+        expected: "1\n2\n3\n4\n5",
+    },
+};
+
+const glossaryTerms = [
+    { term: "Argument", definition: "A value passed into a function when it is called.", example: 'greet("Amina")  # "Amina" is an argument' },
+    { term: "Boolean", definition: "A value that is either True or False.", example: "is_ready = True" },
+    { term: "Class", definition: "A blueprint that describes data and behaviour for objects.", example: "class Learner:\n    pass" },
+    { term: "Condition", definition: "A test that evaluates to True or False and controls a decision.", example: "if score >= 50:\n    print('Pass')" },
+    { term: "Dictionary", definition: "A collection that stores values using named keys.", example: 'learner = {"name": "Amina"}' },
+    { term: "Exception", definition: "An event raised when Python encounters an error while a program runs.", example: "try:\n    number = int(text)\nexcept ValueError:\n    print('Try a number')" },
+    { term: "Expression", definition: "Code that Python evaluates to produce a value.", example: "total = 4 + 5" },
+    { term: "Function", definition: "A named, reusable block of code that can accept input and return a result.", example: "def greet(name):\n    return 'Hello, ' + name" },
+    { term: "Index", definition: "A number that identifies an item's position; Python sequences start at index 0.", example: 'colors = ["purple", "blue"]\nprint(colors[0])' },
+    { term: "Integer", definition: "A whole number without a decimal part.", example: "lesson_count = 10" },
+    { term: "Iteration", definition: "One pass through a repeated block of code, such as a loop body.", example: "for fruit in fruits:\n    print(fruit)" },
+    { term: "List", definition: "An ordered collection that can hold several values.", example: 'fruits = ["mango", "banana"]' },
+    { term: "Loop", definition: "A structure that repeats instructions while a condition holds or for each item.", example: "for number in range(3):\n    print(number)" },
+    { term: "Method", definition: "A function associated with an object, called using dot notation.", example: '"hello".upper()' },
+    { term: "Object", definition: "A value created from a class that can hold data and provide methods.", example: "learner = Learner()" },
+    { term: "Parameter", definition: "A variable in a function definition that receives an argument.", example: "def greet(name):  # name is a parameter\n    print(name)" },
+    { term: "Return value", definition: "The result a function sends back to the code that called it.", example: "def add(a, b):\n    return a + b" },
+    { term: "String", definition: "A sequence of text characters written inside quotes.", example: 'message = "Hello, Python!"' },
+    { term: "Syntax", definition: "The rules for writing valid code in a programming language.", example: "print('Parentheses and quotes must match')" },
+    { term: "Variable", definition: "A name that refers to a value so the program can use it later.", example: 'learner_name = "Amina"' },
+];
+
+const miniProjects = [
+    {
+        title: "Personal greeting card",
+        level: "Beginner · variables and strings",
+        description: "Create a friendly message using a name, course, and formatted output.",
+        steps: ["Change the example details.", "Use an f-string to build a greeting.", "Print a second line about your learning goal."],
+        code: 'name = "Amina"\ncourse = "Python"\ngoal = "build useful projects"\n\nprint(f"Hello, {name}!")\nprint(f"I am learning {course} to {goal}.")',
+    },
+    {
+        title: "Number guessing game",
+        level: "Beginner · loops and conditions",
+        description: "Practise repeating a check and responding to a correct guess.",
+        steps: ["Change the secret number.", "Change the guesses list.", "Print a success message when a guess matches."],
+        code: "secret_number = 7\nguesses = [3, 5, 7, 9]\n\nfor guess in guesses:\n    print(f\"Trying {guess}...\")\n    if guess == secret_number:\n        print(\"You found it!\")\n        break",
+    },
+    {
+        title: "Simple expense tracker",
+        level: "Beginner · lists and arithmetic",
+        description: "Store a few expenses and calculate their total and average.",
+        steps: ["Add or change the expense amounts.", "Calculate the total with sum().", "Calculate and print the average."],
+        code: 'expenses = [120, 80, 45]\ntotal = sum(expenses)\naverage = total / len(expenses)\n\nprint("Expenses:", expenses)\nprint("Total:", total)\nprint("Average:", average)',
+    },
+];
+
 function updateLessonProgress() {
     const completedCount = publishedLessonCards.filter(({ lesson }) =>
         completedLessonSlugs.has(lesson.slug)
@@ -152,6 +235,145 @@ function updateLessonProgress() {
             ? "Mark as not complete"
             : "Mark lesson complete";
         markLessonCompleteButton.setAttribute("aria-pressed", String(isCompleted));
+    }
+}
+
+function renderGlossary(terms) {
+    glossaryCatalog.replaceChildren();
+
+    terms.forEach(({ term, definition, example }) => {
+        const card = document.createElement("article");
+        card.className = "lesson-card glossary-card";
+
+        const heading = document.createElement("h3");
+        heading.textContent = term;
+
+        const description = document.createElement("p");
+        description.textContent = definition;
+
+        const code = document.createElement("pre");
+        code.className = "example-code";
+        code.textContent = example;
+
+        card.append(heading, description, code);
+        glossaryCatalog.append(card);
+    });
+
+    glossaryEmpty.hidden = terms.length > 0;
+}
+
+function renderProjects() {
+    miniProjects.forEach((project) => {
+        const card = document.createElement("article");
+        card.className = "lesson-card project-card";
+
+        const level = document.createElement("p");
+        level.className = "challenge-label";
+        level.textContent = project.level;
+
+        const heading = document.createElement("h3");
+        heading.textContent = project.title;
+
+        const description = document.createElement("p");
+        description.textContent = project.description;
+
+        const steps = document.createElement("ol");
+        steps.className = "project-steps";
+        project.steps.forEach((step) => {
+            const item = document.createElement("li");
+            item.textContent = step;
+            steps.append(item);
+        });
+
+        const button = document.createElement("button");
+        button.className = "secondary-button";
+        button.type = "button";
+        button.textContent = "Load starter in playground";
+        button.addEventListener("click", function () {
+            pythonCode.value = project.code;
+            challengeMode = false;
+            setChallengeFeedback("", "");
+            playgroundStatus.textContent = `${project.title} starter loaded. Edit the code, then select Run Python.`;
+            pythonOutput.textContent = "Starter loaded. Complete the project steps, then run your code.";
+            projectLoadStatus.textContent = `${project.title} loaded in the code playground.`;
+            document.getElementById("playground").scrollIntoView({ behavior: "smooth" });
+            pythonCode.focus();
+        });
+
+        card.append(level, heading, description, steps, button);
+        projectCatalog.append(card);
+    });
+}
+
+function loadDebugExercise() {
+    const exercise = debugExercises[debugExerciseSelect.value];
+    debugStatus.classList.remove("feedback-success", "feedback-error");
+    debugCode.value = exercise.code;
+    debugExercisePrompt.textContent = exercise.prompt;
+    debugStatus.textContent = pyodide
+        ? "Read the code, run it to inspect the error or output, then make a fix."
+        : "Loading the browser Python runtime...";
+    debugOutput.textContent = "Select Run code to inspect the broken program.";
+}
+
+async function checkAssistantStatus() {
+    try {
+        const response = await fetch("/api/assistant/status/");
+        const data = await response.json();
+        if (!response.ok || typeof data.configured !== "boolean") {
+            throw new Error(data.error || "The assistant status response was invalid.");
+        }
+
+        if (data.configured) {
+            askAssistantButton.disabled = false;
+            askAssistantButton.textContent = "Ask for an explanation";
+            assistantStatus.textContent = "Assistant ready. Your question will be sent to the configured AI provider.";
+        } else {
+            askAssistantButton.disabled = true;
+            askAssistantButton.textContent = "Assistant not configured";
+            assistantStatus.textContent = "AI support is not configured yet. A site owner must set the provider endpoint, model, and API key on the server.";
+        }
+    } catch (error) {
+        askAssistantButton.disabled = true;
+        askAssistantButton.textContent = "Assistant unavailable";
+        assistantStatus.textContent = `Could not check the assistant setup: ${error.message}`;
+        console.error("Could not check AI assistant status:", error);
+    }
+}
+
+async function askAssistant(question) {
+    const csrfToken = assistantForm.querySelector("[name=csrfmiddlewaretoken]").value;
+    askAssistantButton.disabled = true;
+    askAssistantButton.textContent = "Thinking...";
+    assistantStatus.textContent = "Sending your question to the configured assistant...";
+    assistantAnswer.textContent = "";
+
+    try {
+        const response = await fetch("/api/assistant/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": csrfToken,
+            },
+            body: JSON.stringify({ question }),
+        });
+        const data = await response.json();
+        if (!response.ok) {
+            throw new Error(data.error || `The assistant returned HTTP ${response.status}.`);
+        }
+        if (typeof data.answer !== "string" || data.answer.trim() === "") {
+            throw new Error("The assistant returned an empty explanation.");
+        }
+
+        assistantAnswer.textContent = data.answer;
+        assistantStatus.textContent = "Explanation ready.";
+    } catch (error) {
+        assistantAnswer.textContent = "The explanation could not be loaded.";
+        assistantStatus.textContent = error.message;
+        console.error("Could not get an AI explanation:", error);
+    } finally {
+        askAssistantButton.disabled = false;
+        askAssistantButton.textContent = "Ask for an explanation";
     }
 }
 
@@ -313,6 +535,37 @@ lessonSearch.addEventListener("input", function () {
     const searchTerm = lessonSearch.value.trim();
     clearLessonSearchButton.disabled = searchTerm.length === 0;
     filterLessonCards();
+});
+
+glossarySearch.addEventListener("input", function () {
+    const searchTerm = glossarySearch.value.trim().toLowerCase();
+    const matchingTerms = glossaryTerms.filter(({ term, definition, example }) =>
+        `${term} ${definition} ${example}`.toLowerCase().includes(searchTerm)
+    );
+    renderGlossary(matchingTerms);
+});
+
+debugExerciseSelect.addEventListener("change", loadDebugExercise);
+
+resetDebugButton.addEventListener("click", loadDebugExercise);
+
+runDebugButton.addEventListener("click", function () {
+    runDebugExercise(false);
+});
+
+checkDebugButton.addEventListener("click", function () {
+    runDebugExercise(true);
+});
+
+assistantForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+    const question = assistantQuestion.value.trim();
+    if (question.length === 0) {
+        assistantStatus.textContent = "Enter a Python question first.";
+        return;
+    }
+
+    askAssistant(question);
 });
 
 lessonProgressFilters.forEach((filterButton) => {
@@ -560,14 +813,20 @@ async function initializePython() {
         pyodide = await loadPyodide();
         runCodeButton.disabled = false;
         checkChallengeButton.disabled = false;
+        runDebugButton.disabled = false;
+        checkDebugButton.disabled = false;
+        debugCode.disabled = false;
         runCodeButton.textContent = "Run Python";
         playgroundStatus.textContent = "Python is ready. Your code runs in this browser.";
         pythonOutput.textContent = "Ready when you are. Run the example or write your own code.";
+        loadDebugExercise();
     } catch (error) {
         runCodeButton.disabled = true;
         runCodeButton.textContent = "Python unavailable";
         playgroundStatus.textContent = "Python could not be loaded. Check your internet connection and refresh the page.";
         pythonOutput.textContent = `Loading error: ${error.message}`;
+        debugStatus.textContent = "Python could not be loaded. Check your internet connection and refresh the page.";
+        debugOutput.textContent = `Loading error: ${error.message}`;
     }
 }
 
@@ -644,16 +903,61 @@ function setChallengeFeedback(message, result) {
     }
 }
 
+function executePythonProgram(source, outputElement) {
+    const outputLines = [];
+    pyodide.setStdout({ batched: (line) => outputLines.push(line) });
+    pyodide.setStderr({ batched: (line) => outputLines.push(line) });
+
+    try {
+        const result = pyodide.runPython(source);
+        if (result !== undefined && result !== null) {
+            outputLines.push(String(result));
+        }
+
+        outputElement.textContent = outputLines.length > 0
+            ? outputLines.join("\n")
+            : "Program finished with no output. Add a print() statement to display something.";
+        return { succeeded: true, outputLines };
+    } catch (error) {
+        outputLines.push(error.message);
+        outputElement.textContent = outputLines.join("\n");
+        return { succeeded: false, outputLines };
+    }
+}
+
+function runDebugExercise(checkFix) {
+    const exercise = debugExercises[debugExerciseSelect.value];
+    debugStatus.classList.remove("feedback-success", "feedback-error");
+    runDebugButton.disabled = true;
+    checkDebugButton.disabled = true;
+    debugStatus.textContent = checkFix ? "Checking your repair..." : "Running the exercise...";
+
+    const result = executePythonProgram(debugCode.value, debugOutput);
+    if (!result.succeeded) {
+        debugStatus.textContent = "Python reported an error. Read it, repair the code, and try again.";
+        if (checkFix) {
+            debugStatus.textContent += " Your fix is not complete yet.";
+        }
+    } else if (checkFix && result.outputLines.join("\n").trim() === exercise.expected) {
+        debugStatus.textContent = "Correct! You fixed the bug.";
+        debugStatus.classList.add("feedback-success");
+        window.setTimeout(() => debugStatus.classList.remove("feedback-success"), 1600);
+    } else if (checkFix) {
+        debugStatus.textContent = "The code runs, but the result is not quite right yet. Compare it with the task and try again.";
+    } else {
+        debugStatus.textContent = "Program finished. Check the output, then edit the code.";
+    }
+
+    runDebugButton.disabled = false;
+    checkDebugButton.disabled = false;
+}
+
 async function runPythonCode(checkChallenge = false) {
     runCodeButton.disabled = true;
     checkChallengeButton.disabled = true;
     runCodeButton.textContent = "Running...";
     playgroundStatus.textContent = "Running your Python program...";
     pythonOutput.textContent = "";
-
-    const outputLines = [];
-    pyodide.setStdout({ batched: (line) => outputLines.push(line) });
-    pyodide.setStderr({ batched: (line) => outputLines.push(line) });
 
     try {
         if (checkChallenge) {
@@ -662,15 +966,16 @@ async function runPythonCode(checkChallenge = false) {
             pyodide.globals.set("total", null);
         }
 
-        const result = pyodide.runPython(pythonCode.value);
-
-        if (result !== undefined && result !== null) {
-            outputLines.push(String(result));
+        const result = executePythonProgram(pythonCode.value, pythonOutput);
+        const outputLines = result.outputLines;
+        if (!result.succeeded) {
+            playgroundStatus.textContent = "Your program has an error. Read the message above, make a change, and try again.";
+            if (checkChallenge) {
+                setChallengeFeedback("Python found an error. Read the output, fix the code, and check again.", "error");
+            }
+            return;
         }
 
-        pythonOutput.textContent = outputLines.length > 0
-            ? outputLines.join("\n")
-            : "Program finished with no output. Add a print() statement to display something.";
         playgroundStatus.textContent = "Program finished.";
 
         if (checkChallenge) {
@@ -690,8 +995,7 @@ async function runPythonCode(checkChallenge = false) {
             }
         }
     } catch (error) {
-        outputLines.push(error.message);
-        pythonOutput.textContent = outputLines.join("\n");
+        pythonOutput.textContent = error.message;
         playgroundStatus.textContent = "Your program has an error. Read the message above, make a change, and try again.";
 
         if (checkChallenge) {
@@ -716,3 +1020,7 @@ resetCodeButton.addEventListener("click", function () {
 
 initializePython();
 loadPublishedLessons();
+renderGlossary(glossaryTerms);
+renderProjects();
+loadDebugExercise();
+checkAssistantStatus();

@@ -437,6 +437,83 @@ button:hover {
     opacity: 0.6;
 }
 
+.practice-panel {
+    max-width: 860px;
+    margin: 0 auto;
+}
+
+.form-control,
+.code-editor {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    min-height: 48px;
+    padding: 12px 14px;
+    border: 1px solid #354361;
+    border-radius: 10px;
+    background: #090e1b;
+    color: var(--text);
+    font: inherit;
+}
+
+.form-control:focus-visible,
+.code-editor:focus-visible {
+    outline: 2px solid #c4b5fd;
+    outline-offset: 3px;
+}
+
+.code-editor {
+    min-height: 190px;
+    resize: vertical;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    tab-size: 4;
+}
+
+.assistant-question {
+    min-height: 110px;
+    resize: vertical;
+}
+
+.practice-prompt,
+.assistant-privacy {
+    margin: 12px 0 18px;
+    color: var(--muted);
+}
+
+.assistant-privacy {
+    font-size: 13px;
+}
+
+.assistant-answer {
+    min-height: 90px;
+    margin-top: 0;
+    padding: 16px;
+    border: 1px solid #26334c;
+    border-radius: 10px;
+    background: #0a101d;
+    color: #e2e8f0;
+    font-family: inherit;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.project-steps {
+    margin: 14px 0 2px 20px;
+    color: #c2cbdd;
+}
+
+.project-steps li {
+    margin: 5px 0;
+    padding-left: 3px;
+}
+
+.glossary-card .example-code {
+    font-size: 13px;
+}
+
 .lesson-card .secondary-button {
     margin-top: 15px;
 }

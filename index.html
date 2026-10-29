@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PyPath | Learn Python by Doing</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'style.css' %}?v=6">
+    <link rel="stylesheet" href="{% static 'style.css' %}?v=7">
     <script defer src="https://cdn.jsdelivr.net/pyodide/v314.0.7/full/pyodide.js"></script>
-    <script defer src="{% static 'script.js' %}?v=6"></script>
+    <script defer src="{% static 'script.js' %}?v=7"></script>
 </head>
 <body>
 
@@ -18,6 +18,10 @@
         <nav>
             <a href="#home">Home</a>
             <a href="#lessonLibrary">Lessons</a>
+            <a href="#debugging">Debugging</a>
+            <a href="#projects">Projects</a>
+            <a href="#glossary">Glossary</a>
+            <a href="#assistant">AI Helper</a>
             <a href="#playground">Code Playground</a>
         </nav>
 
@@ -1209,6 +1213,102 @@ print("Your favorite number is", favorite_number)</textarea>
                 <h3 class="output-heading">Output</h3>
                 <pre id="pythonOutput" class="output-area" aria-live="polite">Python is starting...</pre>
             </div>
+        </section>
+
+        <section id="debugging" class="content-section">
+            <div class="section-heading">
+                <p class="tagline">DEBUGGING LAB</p>
+                <h2>Find the bug. Fix the code.</h2>
+                <p class="section-intro">
+                    Choose a small broken program, read the error or output,
+                    and fix it yourself. Python runs in this browser.
+                </p>
+            </div>
+            <div class="lesson-card practice-panel">
+                <label for="debugExerciseSelect" class="editor-label">Choose a debugging exercise</label>
+                <select id="debugExerciseSelect" class="form-control">
+                    <option value="name">NameError: find the misspelled name</option>
+                    <option value="syntax">SyntaxError: complete the if statement</option>
+                    <option value="loop">Logic bug: print all five numbers</option>
+                </select>
+                <p id="debugExercisePrompt" class="practice-prompt"></p>
+                <label for="debugCode" class="editor-label">Repair this Python code</label>
+                <textarea id="debugCode" class="code-editor" spellcheck="false"
+                    autocapitalize="off" autocomplete="off" disabled></textarea>
+                <div class="playground-actions">
+                    <button id="runDebugButton" class="secondary-button" type="button" disabled>Run code</button>
+                    <button id="checkDebugButton" class="primary-button" type="button" disabled>Check my fix</button>
+                    <button id="resetDebugButton" class="secondary-button" type="button">Reset exercise</button>
+                </div>
+                <p id="debugStatus" class="playground-status" aria-live="polite">
+                    Loading the browser Python runtime...
+                </p>
+                <h3 class="output-heading">Debug output</h3>
+                <pre id="debugOutput" class="output-area" aria-live="polite">Python is starting...</pre>
+            </div>
+        </section>
+
+        <section id="projects" class="content-section">
+            <div class="section-heading">
+                <p class="tagline">LEARN BY BUILDING</p>
+                <h2>Mini-projects</h2>
+                <p class="section-intro">
+                    Put Python fundamentals together in small projects. Load a
+                    starter into the playground, then follow the project steps.
+                </p>
+            </div>
+            <div id="projectCatalog" class="lesson-grid"></div>
+            <p id="projectLoadStatus" class="visually-hidden" aria-live="polite"></p>
+        </section>
+
+        <section id="glossary" class="content-section">
+            <div class="section-heading">
+                <p class="tagline">PYTHON GLOSSARY</p>
+                <h2>Programming words, simply explained</h2>
+                <p class="section-intro">
+                    Search common terms from the lessons and see a short
+                    definition with a Python example.
+                </p>
+            </div>
+            <div class="lesson-search">
+                <label for="glossarySearch">Find a programming term</label>
+                <input id="glossarySearch" type="search" placeholder="Try variable, loop, or function..."
+                    autocomplete="off">
+            </div>
+            <div id="glossaryCatalog" class="lesson-grid" aria-live="polite"></div>
+            <p id="glossaryEmpty" class="empty-state" hidden>No terms match that search. Try another word.</p>
+        </section>
+
+        <section id="assistant" class="content-section">
+            <div class="section-heading">
+                <p class="tagline">OPTIONAL AI LEARNING SUPPORT</p>
+                <h2>Ask a Python question</h2>
+                <p class="section-intro">
+                    The assistant is an optional server-side integration.
+                    Learner code still runs only in your browser.
+                </p>
+            </div>
+            <form id="assistantForm" class="lesson-card practice-panel">
+                {% csrf_token %}
+                <label for="assistantQuestion" class="editor-label">What would you like explained?</label>
+                <textarea id="assistantQuestion" class="form-control assistant-question" maxlength="1200"
+                    placeholder="For example: What is the difference between a parameter and an argument?"
+                    required></textarea>
+                <p class="assistant-privacy">
+                    If enabled, your question is sent to the AI provider configured by the site owner.
+                    Do not include passwords, personal information, or secrets.
+                </p>
+                <div class="playground-actions">
+                    <button id="askAssistantButton" class="primary-button" type="submit" disabled>
+                        Check assistant setup...
+                    </button>
+                </div>
+                <p id="assistantStatus" class="playground-status" aria-live="polite">
+                    Checking whether an AI provider is configured...
+                </p>
+                <h3 class="output-heading">Explanation</h3>
+                <pre id="assistantAnswer" class="assistant-answer" aria-live="polite">The assistant will explain concepts here.</pre>
+            </form>
         </section>
     </main>
 
